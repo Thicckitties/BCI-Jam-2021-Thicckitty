@@ -1,16 +1,19 @@
 using UnityEngine;
 
-
-public class GameApplication : Singleton<GameApplication>
+namespace Thicckitty
 {
-    // Probably can abstract this and use it as parent for any kind of other game application
-    void Start()
+    public class GameApplication : Singleton<GameApplication>
     {
-        Application.targetFrameRate = 60;
-    }
+        // Probably can abstract this and use it as parent for any kind of other game application
+        void Start()
+        {
+            Application.targetFrameRate = 60;
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
+        // Update is called once per frame
+        void Update()
+        {
+        }
     }
 }
+

@@ -1,5 +1,11 @@
-public interface IBCIInteractable
+
+namespace Thicckitty
 {
-    void ReactToBCI();
-    void SendEventToWeb();
+    
+    public interface IBCIInteractable
+    {
+        void ReactToBCI();
+        void SendEventToWeb();
+    }
 }
+

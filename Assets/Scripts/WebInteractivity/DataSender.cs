@@ -1,10 +1,16 @@
-// Sends data to JS backend
-public class DataSender : Singleton<DataSender>
+
+namespace Thicckitty
 {
-    // This has to be formatted for the data to be sent.
-    public void SendToJS()
+    
+    // Sends data to JS backend
+    public class DataSender : Singleton<DataSender>
     {
-        JSplugin.SendFloatToServer(4.56f);
-        JSplugin.SendStringToServer("this came from unity");
+        // This has to be formatted for the data to be sent.
+        public void SendToJS()
+        {
+            JSplugin.SendFloatToServer(4.56f);
+            JSplugin.SendStringToServer("this came from unity");
+        }
     }
 }
+

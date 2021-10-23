@@ -1,24 +1,27 @@
 using UnityEngine;
 
 
-public class Singleton<T> : MonoBehaviour where T : Singleton<T>
+namespace Thicckitty
 {
-    private static T m_instance = default(T);
-    public static T Instance
+    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        get
+        private static T m_instance = default(T);
+        public static T Instance
         {
-            if (m_instance == null)
+            get
             {
-                GameObject go = null;
-                if (GameObject.Find("Singleton") == false)
+                if (m_instance == null)
                 {
-                    go = new GameObject("Singleton");
+                    GameObject go = null;
+                    if (GameObject.Find("Singleton") == false)
+                    {
+                        go = new GameObject("Singleton");
+                    }
+                    if (go != null)
+                        m_instance = go.AddComponent<T>();
                 }
-                if (go != null)
-                    m_instance = go.AddComponent<T>();
+                return m_instance;
             }
-            return m_instance;
         }
     }
 }

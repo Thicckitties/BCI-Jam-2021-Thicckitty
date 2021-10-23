@@ -1,52 +1,66 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DisallowMultipleComponent]
-[RequireComponent(typeof(Rigidbody))]
-public class TCharacter : MonoBehaviour
+namespace Thicckitty
 {
-    [Header("Movement")]
-    [SerializeField, Min(0f)]
-    private float movementSpeed;
-
-    private Rigidbody _rigidbody;
     
-    private Rigidbody Rigidbody
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(Rigidbody))]
+    public class TCharacter : MonoBehaviour
     {
-        get
-        {
-            _rigidbody ??= GetComponent<Rigidbody>();
-            return _rigidbody;
-        }
-    }
+        [Header("Movement")]
+        [SerializeField, Min(0f)]
+        private float movementSpeed;
 
-    private void Update()
-    {
-        UpdateInputs();
-    }
+        [Header("SODA References")] 
+        [SerializeField]
+        private SODA.Vector3Reference playerPosition;
+        
+        private Rigidbody _rigidbody;
+        
+        private Rigidbody Rigidbody
+        {
+            get
+            {
+                _rigidbody ??= GetComponent<Rigidbody>();
+                return _rigidbody;
+            }
+        }
 
-    private void UpdateInputs()
-    {
-        Vector3 inputVector = Vector3.zero;
+        private void Update()
+        {
+            UpdateInputs();
+        }
 
-        if(Input.GetKey(KeyCode.W))
+        private void LateUpdate()
         {
-            inputVector += transform.forward;
+            playerPosition.Value = transform.position;
         }
-        if (Input.GetKey(KeyCode.S))
+
+        private void UpdateInputs()
         {
-            inputVector += -transform.forward;
+            Vector3 inputVector = Vector3.zero;
+
+            if(Input.GetKey(KeyCode.W))
+            {
+                inputVector += transform.forward;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                inputVector += -transform.forward;
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                inputVector += -transform.right;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                inputVector += transform.right;
+            }
+            Rigidbody.AddForce(
+                inputVector.normalized * movementSpeed);
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector += -transform.right;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector += transform.right;
-        }
-        Rigidbody.AddForce(
-            inputVector.normalized * movementSpeed);
     }
 }
