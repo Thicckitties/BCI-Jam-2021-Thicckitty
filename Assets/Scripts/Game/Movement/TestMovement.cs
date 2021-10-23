@@ -5,14 +5,17 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TestMovement : MonoBehaviour, ITMovement
 {
+    [Header("Movement")]
     [SerializeField, Min(0f)]
     private float movementSpeed;
-
+    [SerializeField]
+    private TMovementData movementData;
+    
     private TMovement _movement;
 
     public float MovementSpeed => movementSpeed;
 
-    public Transform TransformReference
+    public Transform ComponentTransform
         => transform;
 
     public TMovement MovementImplementation
@@ -23,6 +26,8 @@ public class TestMovement : MonoBehaviour, ITMovement
             return _movement;
         }
     }
+
+    public TMovementData MovementData => movementData;
 
     private void Update()
     {
@@ -37,19 +42,19 @@ public class TestMovement : MonoBehaviour, ITMovement
 
         if(Input.GetKey(KeyCode.W))
         {
-            inputVector += TransformReference.forward;
+            inputVector += ComponentTransform.forward;
         }
         if (Input.GetKey(KeyCode.S))
         {
-            inputVector += -TransformReference.forward;
+            inputVector += -ComponentTransform.forward;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            inputVector += -TransformReference.right;
+            inputVector += -ComponentTransform.right;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            inputVector += TransformReference.right;
+            inputVector += ComponentTransform.right;
         }
         MovementImplementation.SetVelocity(
             inputVector.normalized * movementSpeed);
