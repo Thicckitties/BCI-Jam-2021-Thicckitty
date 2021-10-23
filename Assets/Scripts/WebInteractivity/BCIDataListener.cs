@@ -7,14 +7,9 @@ public class BCIDataListener : Singleton<BCIDataListener>
     void Start()
     {
         CurrentData = new EEGData {
-            alpha = 0.0f,
-            alphaBeta = 0.0f,
-            alphaTheta = 0.0f,
-            coherence = 0.0f,
-            focus = 0.0f,
-            thetaBeta = 0.0f,
-            blink = 0.0f,
-            o1 = 0.0f
+            xInput = 0.0f,
+            yInput = 0.0f,
+            kick = 0.0f
         };
 
     }
@@ -22,6 +17,22 @@ public class BCIDataListener : Singleton<BCIDataListener>
     // These are called by the web Applet
     // The signature has to correspond on the applet side
     // All of the parameters have to be filled in one by one because these calls do not handle custom structures well
+    public void XInput(float xInput)
+    {
+        CurrentData.xInput = xInput;
+    }
+
+    public void YInput(float yInput)
+    {
+        CurrentData.yInput = yInput;
+    }
+
+    public void Kick(float kick)
+    {
+        CurrentData.kick = kick;
+    }
+
+    /*
     public void UpdateAlpha(float alpha)
     {
         CurrentData.alpha = alpha;
@@ -60,5 +71,5 @@ public class BCIDataListener : Singleton<BCIDataListener>
     public void UpdateO1(float o1)
     {
         CurrentData.o1 = o1;
-    }
+    }*/
 }

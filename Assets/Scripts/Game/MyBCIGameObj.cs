@@ -32,11 +32,11 @@ public class MyBCIGameObj : MonoBehaviour, IBCIInteractable
 
     public void ReactToBCI()
     {
-        print("bcigameobj ReactToBCI coherence data: " + BCIDataListener.CurrentData.coherence
+        /*print("bcigameobj ReactToBCI coherence data: " + BCIDataListener.CurrentData.coherence
             + " and blink data: " + BCIDataListener.CurrentData.blink
             + " and focus data: " + BCIDataListener.CurrentData.focus);
         control.ChangeFacialExpression(BCIDataListener.CurrentData.focus);
         if (BCIDataListener.CurrentData.blink > 0.1f)
-            control.Blink();
+            control.Blink();*/
     }
 }

@@ -2,6 +2,7 @@
 // Link to Project Assets
 import {config} from './webbuild/Build/buildconfig.js'
 import {Unity} from './Unity.js'
+import {Reverse} from './Reverse.js'
 
 export const settings = {
     name: "Unity Template",
@@ -17,7 +18,17 @@ export const settings = {
       nodes: [
         {id:'eeg', class: brainsatplay.plugins.biosignals.EEG},
         {id:'neurofeedback', class: brainsatplay.plugins.algorithms.Neurofeedback, params: {metric: 'Focus'}},
-        {id:'blink', class: brainsatplay.plugins.controls.Event},
+        {id:'kick', class: brainsatplay.plugins.controls.Event, params: {keycode: 'Space'}},
+        {id:'up', class: brainsatplay.plugins.controls.Event, params: {keycode: 'w'}},
+        {id:'down', class: brainsatplay.plugins.controls.Event, params: {keycode: 's'}},
+        {id:'left', class: brainsatplay.plugins.controls.Event, params: {keycode: 'a'}},
+        {id:'right', class: brainsatplay.plugins.controls.Event, params: {keycode: 'd'}},
+        
+        {id:'reverseleft', class: Reverse},
+        {id:'reversedown', class: Reverse},
+
+        {id:'debug', class: brainsatplay.plugins.debug.Debug},
+
         {
           id:'unity', 
           class: Unity, 
@@ -40,43 +51,18 @@ export const settings = {
               [
                 {
                     object: 'GameApplication',
-                    function: 'UpdateAlpha',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateAlphaBeta',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateAlphaTheta',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateCoherence',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateFocus',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateThetaBeta',
-                    type: 'number'
-                },
-                {
-                    object: 'GameApplication',
-                    function: 'UpdateBlink',
+                    function: 'XInput',
                     type: 'boolean'
                 },
                 {
                     object: 'GameApplication',
-                    function: 'UpdateO1',
-                    type: 'number'
+                    function: 'YInput',
+                    type: 'boolean'
+                },
+                {
+                    object: 'GameApplication',
+                    function: 'Kick',
+                    type: 'boolean'
                 }
             ]
           }
@@ -91,17 +77,43 @@ export const settings = {
 
         // BRAIN
         {
-          source: 'eeg:atlas',
-          target: 'neurofeedback',
+          source: 'right',
+          target: 'unity:XInput',
         },
+
         {
-          source: 'neurofeedback',
-          target: 'unity:UpdateFocus',
+          source: 'left',
+          target: 'reverseleft',
+        },
+
+        {
+          source: 'reverseleft',
+          target: 'unity:XInput',
+        },
+
+        {
+          source: 'up',
+          target: 'unity:YInput',
+        },
+
+        {
+          source: 'down',
+          target: 'reversedown',
+        },
+
+        {
+          source: 'reversedown',
+          target: 'unity:YInput',
+        },
+
+        {
+          source: 'reversedown',
+          target: 'debug',
         },
 
           {
-            source: 'blink',
-            target: 'unity:UpdateBlink',
+            source: 'kick',
+            target: 'unity:Kick',
           },
 
         {

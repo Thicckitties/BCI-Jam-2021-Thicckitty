@@ -1,9 +1,9 @@
 var buildUrl = "./webbuild/Build";
 export var config = {
-  dataUrl: buildUrl + "/webbuild.data",
-  loaderUrl: buildUrl + "/webbuild.loader.js",
-  frameworkUrl: buildUrl + "/webbuild.framework.js",
-  codeUrl: buildUrl + "/webbuild.wasm",
+  dataUrl: buildUrl + "/BCI2021.data",
+  loaderUrl: buildUrl + "/BCI2021.loader.js",
+  frameworkUrl: buildUrl + "/BCI2021.framework.js",
+  codeUrl: buildUrl + "/BCI2021.wasm",
 //#if MEMORY_FILENAME
  // memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
 //#endif
