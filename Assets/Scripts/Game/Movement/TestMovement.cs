@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class TestMovement : MonoBehaviour, ITCharacterMovementComponent
+public class TestMovement : MonoBehaviour, ITMovement
 {
     [SerializeField, Min(0f)]
     private float movementSpeed;
 
-    private TCharacterMovement _movement;
+    private TMovement _movement;
 
     public float MovementSpeed => movementSpeed;
 
     public Transform TransformReference
         => transform;
 
-    public TCharacterMovement MovementImplementation
+    public TMovement MovementImplementation
     {
         get
         {
-            _movement ??= new TCharacterMovement(this);
+            _movement ??= new TMovement(this);
             return _movement;
         }
     }

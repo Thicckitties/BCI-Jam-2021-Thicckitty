@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public interface ITCharacterMovementComponent
+public interface ITMovement
 {
 
     Transform TransformReference
@@ -11,7 +11,7 @@ public interface ITCharacterMovementComponent
         get;
     }
 
-    TCharacterMovement MovementImplementation
+    TMovement MovementImplementation
     {
         get;
     }
@@ -19,16 +19,16 @@ public interface ITCharacterMovementComponent
 
 
 
-public class TCharacterMovement
+public class TMovement
 {
 
-    private readonly ITCharacterMovementComponent _movementComponent;
+    private readonly ITMovement _movementComponent;
     private Vector3 _velocity = Vector3.zero;
 
     public Vector3 Velocity => _velocity;
 
 
-    public TCharacterMovement(ITCharacterMovementComponent movementComponent)
+    public TMovement(ITMovement movementComponent)
     {
         _movementComponent = movementComponent;
     }
