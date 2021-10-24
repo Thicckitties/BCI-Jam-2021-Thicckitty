@@ -75,6 +75,16 @@ public class Kick : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (!kickReady)
+        {
+            if (other.tag == "Ball")
+            {
+                kickReady = true;
+            }
+        }
+    }
 
     private void OnTriggerExit(Collider other)
     {
