@@ -8,17 +8,21 @@ namespace Thicckitty
     
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
-    public class TCharacter : MonoBehaviour
+    public class TCharacter : MonoBehaviour, IGroundDetectionComponent
     {
         [Header("Movement")]
         [SerializeField, Min(0f)]
         private float movementSpeed;
+        [SerializeField]
+        private GroundDetectionData groundDetectionData;
 
         [Header("SODA References")] 
         [SerializeField]
         private SODA.Vector3Reference playerPosition;
-        
+
+        private Vector3 _inputVector = Vector3.zero;
         private Rigidbody _rigidbody;
+        private GroundDetectionController _groundDetector;
         
         private Rigidbody Rigidbody
         {
@@ -29,9 +33,31 @@ namespace Thicckitty
             }
         }
 
+        public Transform Transform => transform;
+        public GroundDetectionData GroundDetectionData => groundDetectionData;
+
+        public GroundDetectionController GroundDetector
+        {
+            get
+            {
+                _groundDetector ??= new GroundDetectionController(this);
+                return _groundDetector;
+            }
+        }
+        
+
         private void Update()
         {
             UpdateInputs();
+        }
+
+        private void FixedUpdate()
+        {
+            if (GroundDetector.IsOnGround())
+            {
+                Rigidbody.AddForce(
+                    _inputVector.normalized * movementSpeed);                
+            }
         }
 
         private void Awake()
@@ -44,28 +70,40 @@ namespace Thicckitty
             playerPosition.Value = transform.position;
         }
 
+        public void SetInputVector(in Vector3 inputVector)
+        {
+            _inputVector = inputVector;
+        }
+
+        // TODO: Remove
         private void UpdateInputs()
         {
-            Vector3 inputVector = Vector3.zero;
-
+            _inputVector = Vector3.zero;
             if(Input.GetKey(KeyCode.W))
             {
-                inputVector += transform.forward;
+                _inputVector += transform.forward;
             }
             if (Input.GetKey(KeyCode.S))
             {
-                inputVector += -transform.forward;
+                _inputVector += -transform.forward;
             }
             if (Input.GetKey(KeyCode.A))
             {
-                inputVector += -transform.right;
+                _inputVector += -transform.right;
             }
             if (Input.GetKey(KeyCode.D))
             {
-                inputVector += transform.right;
+                _inputVector += transform.right;
             }
-            Rigidbody.AddForce(
-                inputVector.normalized * movementSpeed);
         }
+        
+        #if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            GroundDetector.OnDrawGizmos();
+        }
+
+#endif
     }
 }

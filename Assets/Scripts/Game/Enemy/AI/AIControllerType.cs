@@ -49,6 +49,8 @@ namespace Thicckitty
             {
                 case AIControllerType.CONTROLLER_TYPE_BACK_AND_FORTH:
                     return new EnemyBackAndForthAI(component);
+                case AIControllerType.CONTROLLER_TYPE_MIMIC_MOVEMENT:
+                    return new EnemyMimicMovementAI(component);
             }
             return null;
         }

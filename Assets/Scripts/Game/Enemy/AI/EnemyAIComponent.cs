@@ -7,7 +7,7 @@ namespace Thicckitty
 {
     
     [RequireComponent(typeof(Rigidbody))]
-    public class EnemyAIComponent : EventsListener
+    public class EnemyAIComponent : EventsListener, IGroundDetectionComponent
     {
         [SerializeField, UnityEngine.Min(0.0f)]
         private float aiMovementSpeed = 0.0f;
@@ -16,11 +16,17 @@ namespace Thicckitty
         private AIControllerType controllerType;
         [SerializeField]
         private EnemyBackAndForthAIData backAndForthData;
-            
+        [SerializeField]
+        private EnemyMimicMovementAIData mimicMovementData;
+
+        [SerializeField]
+        private GroundDetectionData groundDetectionData;
+        
         [SerializeField]
         private Color positionColor = Color.black;
 
 
+        private GroundDetectionController _groundDetector;
         private AEnemyAIControllerType _enemyControllerType;
 
         private AEnemyAIControllerType EnemyAIControllerType
@@ -32,13 +38,27 @@ namespace Thicckitty
             }
         }
 
+        public GroundDetectionController GroundDetector
+        {
+            get
+            {
+                _groundDetector ??= new GroundDetectionController(this);
+                return _groundDetector;
+            }
+        }
+
         public AIControllerType ControllerType => controllerType;
 
         public EnemyBackAndForthAIData BackAndForthAIData => backAndForthData;
 
+        public EnemyMimicMovementAIData MimicMovementData => mimicMovementData;
+
         public float AIMovementSpeed => aiMovementSpeed;
 
         public Color PositionColor => positionColor;
+
+        public Transform Transform => transform;
+        public GroundDetectionData GroundDetectionData => groundDetectionData;
         
         protected override bool HookEvents()
         {
@@ -74,6 +94,7 @@ namespace Thicckitty
             {
                 DrawGizmosInGame();
             }
+            GroundDetector.OnDrawGizmos();
         }
 
         private void DrawGizmosInEditor()

@@ -13,15 +13,20 @@ namespace Thicckitty
         private SerializedProperty _controllerType;
         
         private SerializedProperty _backAndForthData;
+        private SerializedProperty _mimicMovementData;
+
+        private SerializedProperty _groundDetectionData;
 
         private SerializedProperty _positionColor;
 
         private void OnEnable()
         {
+            _mimicMovementData = serializedObject.FindProperty("mimicMovementData");
             _aiMovementSpeed = serializedObject.FindProperty("aiMovementSpeed");
             _controllerType = serializedObject.FindProperty("controllerType");
             _backAndForthData = serializedObject.FindProperty("backAndForthData");
             _positionColor = serializedObject.FindProperty("positionColor");
+            _groundDetectionData = serializedObject.FindProperty("groundDetectionData");
         }
 
         public override void OnInspectorGUI()
@@ -31,6 +36,8 @@ namespace Thicckitty
             EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_aiMovementSpeed, 
                 new GUIContent("Movement Speed"));
+            EditorGUILayout.PropertyField(_groundDetectionData,
+                new GUIContent("Ground Detection Data"));
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("AI", EditorStyles.boldLabel);
@@ -42,6 +49,12 @@ namespace Thicckitty
                 case AIControllerType.CONTROLLER_TYPE_BACK_AND_FORTH:
                 {
                     EditorGUILayout.PropertyField(_backAndForthData,
+                        new GUIContent("AI Data"));
+                }
+                break;
+                case AIControllerType.CONTROLLER_TYPE_MIMIC_MOVEMENT:
+                {
+                    EditorGUILayout.PropertyField(_mimicMovementData,
                         new GUIContent("AI Data"));
                 }
                 break;

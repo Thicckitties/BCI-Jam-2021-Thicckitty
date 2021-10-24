@@ -101,8 +101,12 @@ namespace Thicckitty
             }
 
             difference = TargetPosition - Transform.position;
-            Vector3 movementDeltaTime = difference.normalized * deltaTime * _component.AIMovementSpeed;
-            Rigidbody.AddForce(movementDeltaTime);
+            Vector3 movementDeltaTime = difference.normalized * _component.AIMovementSpeed;
+
+            if (_component.GroundDetector.IsOnGround())
+            {
+                Rigidbody.AddForce(movementDeltaTime);
+            }
         }
         
         #if UNITY_EDITOR
