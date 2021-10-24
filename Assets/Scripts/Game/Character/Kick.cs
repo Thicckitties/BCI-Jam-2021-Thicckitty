@@ -40,7 +40,9 @@ public class Kick : MonoBehaviour
     void  Update()
     {
         Vector3 vel = playerR.velocity;
-        if (Input.GetKeyDown(KeyCode.Space) && kickReady && vel.magnitude == 0) //check if player is standing still and ready to kick
+        //Debug.Log(vel.magnitude);
+        //Debug.Log(kickReady);
+        if (Input.GetKeyDown(KeyCode.Space) && kickReady && vel.magnitude <= 0.1f) //check if player is standing still and ready to kick
         { 
             KickBall();
             Debug.Log("Play");
@@ -50,8 +52,8 @@ public class Kick : MonoBehaviour
 
         if(flashingNow) //Flashing effect
         {
-            Flashing();
-            Debug.Log("Fuck");
+            //Flashing();
+            //Debug.Log("Fuck");
         }
 
     }
@@ -73,13 +75,14 @@ public class Kick : MonoBehaviour
         }
     }
 
+
     private void OnTriggerExit(Collider other)
     {
         if (other.tag == "Ball")
         {
             kickReady = false;
             flashingNow = false;
-            readyImage.material.color = Color.white;
+            //readyImage.material.color = Color.white;
             //Stop when false
         }
     }
@@ -93,6 +96,7 @@ public class Kick : MonoBehaviour
 
     public void KickBall() //Kicks the ball via addforce
     {
+        Vector3 kickPos = new Vector3(transform.position.x, transform.position.y - .2f, transform.position.z);
         ball.AddExplosionForce(kickPower, transform.position, 5);
 
     }
