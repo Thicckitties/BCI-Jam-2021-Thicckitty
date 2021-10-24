@@ -16,32 +16,49 @@ public class Kick : MonoBehaviour
 
     public Transform launchPoint;
 
+    public GameObject player;
+
     public Image readyImage;
+
+    public bool flashingNow;
 
     public bool kickReady;
 
+    private float t; //Time
+
+    private Rigidbody playerR;
+
     bool stopGrav;
-    
-    void Update()
+
+
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && kickReady)
-        {
+        playerR = player.GetComponent<Rigidbody>(); // Grabs rigidbody from player and stores it s velocity to check if they are standing still
+
+    }
+
+    void  Update()
+    {
+        Vector3 vel = playerR.velocity;
+        if (Input.GetKeyDown(KeyCode.Space) && kickReady && vel.magnitude == 0) //check if player is standing still and ready to kick
+        { 
             KickBall();
             Debug.Log("Play");
 
             
         }
 
-        if (stopGrav)
+        if(flashingNow) //Flashing effect
         {
-            StartCoroutine(StopGravity());
+            Flashing();
+            Debug.Log("Fuck");
         }
 
     }
 
     private void FixedUpdate()
     {
-        launchPoint.right = ball.transform.position - launchPoint.position;
+        launchPoint.right = ball.transform.position - launchPoint.position; // For arrow, may not add. Don't remove just not being used.
     }
 
 
@@ -50,6 +67,8 @@ public class Kick : MonoBehaviour
         if (other.tag == "Ball")
         {
             kickReady = true;
+            flashingNow = true;
+
             // Blink when ready
         }
     }
@@ -59,24 +78,25 @@ public class Kick : MonoBehaviour
         if (other.tag == "Ball")
         {
             kickReady = false;
+            flashingNow = false;
+            readyImage.material.color = Color.white;
             //Stop when false
         }
     }
 
+    public void  Flashing() //Lerps between colors
+    {
+        t += Time.deltaTime;
+        readyImage.material.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(Mathf.Sin(t * 3)));
 
-    public void KickBall()
+    }
+
+    public void KickBall() //Kicks the ball via addforce
     {
         ball.AddExplosionForce(kickPower, transform.position, 5);
-        stopGrav = true;
+
     }
 
-    IEnumerator StopGravity()
-    {
-       yield return new WaitForSeconds(2);
-
-        Debug.Log("Bruh");
-        //ball.gravityScale += 0;
-    }
-
+ 
 
 }
