@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
+      propertyPath: controllerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
       propertyPath: mimicMovementData.axisLocked
       value: 0
       objectReference: {fileID: 0}

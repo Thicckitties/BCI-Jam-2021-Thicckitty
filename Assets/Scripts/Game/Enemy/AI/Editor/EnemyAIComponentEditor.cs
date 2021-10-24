@@ -11,6 +11,8 @@ namespace Thicckitty
 
         private SerializedProperty _aiMovementSpeed;
         private SerializedProperty _controllerType;
+
+        private SerializedProperty _sprite3DUpdaterData;
         
         private SerializedProperty _backAndForthData;
         private SerializedProperty _mimicMovementData;
@@ -27,6 +29,7 @@ namespace Thicckitty
             _backAndForthData = serializedObject.FindProperty("backAndForthData");
             _positionColor = serializedObject.FindProperty("positionColor");
             _groundDetectionData = serializedObject.FindProperty("groundDetectionData");
+            _sprite3DUpdaterData = serializedObject.FindProperty("sprite3DUpdaterData");
         }
 
         public override void OnInspectorGUI()
@@ -38,6 +41,11 @@ namespace Thicckitty
                 new GUIContent("Movement Speed"));
             EditorGUILayout.PropertyField(_groundDetectionData,
                 new GUIContent("Ground Detection Data"));
+            
+            EditorGUILayout.Separator();
+            EditorGUILayout.LabelField("Visuals", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_sprite3DUpdaterData,
+                new GUIContent("Sprite 3D Updater Data"));
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("AI", EditorStyles.boldLabel);

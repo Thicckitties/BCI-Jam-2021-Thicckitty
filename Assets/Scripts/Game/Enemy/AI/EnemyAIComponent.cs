@@ -7,11 +7,16 @@ namespace Thicckitty
 {
     
     [RequireComponent(typeof(Rigidbody))]
-    public class EnemyAIComponent : EventsListener, IGroundDetectionComponent
+    public class EnemyAIComponent : EventsListener, IGroundDetectionComponent, ISprite3DUpdater
     {
         [SerializeField, UnityEngine.Min(0.0f)]
         private float aiMovementSpeed = 0.0f;
-
+        [SerializeField]
+        private GroundDetectionData groundDetectionData;
+        
+        [SerializeField]
+        private Sprite3DUpdaterData sprite3DUpdaterData;
+        
         [SerializeField]
         private AIControllerType controllerType;
         [SerializeField]
@@ -20,15 +25,14 @@ namespace Thicckitty
         private EnemyMimicMovementAIData mimicMovementData;
 
         [SerializeField]
-        private GroundDetectionData groundDetectionData;
-        
-        [SerializeField]
         private Color positionColor = Color.black;
 
-
+        private Rigidbody _rigidbody;
+        
         private GroundDetectionController _groundDetector;
         private AEnemyAIControllerType _enemyControllerType;
-
+        private Sprite3DUpdaterComponent _updaterComponent;
+        
         private AEnemyAIControllerType EnemyAIControllerType
         {
             get
@@ -57,8 +61,27 @@ namespace Thicckitty
 
         public Color PositionColor => positionColor;
 
+        public Sprite3DUpdaterData UpdaterData => sprite3DUpdaterData;
+        public Vector3 MovementDirection => _rigidbody.velocity.normalized;
+        
         public Transform Transform => transform;
+
+        public Sprite3DUpdaterComponent UpdaterComponent
+        {
+            get
+            {
+                _updaterComponent ??= new Sprite3DUpdaterComponent(this);
+                return _updaterComponent;
+            }
+        }
+        
         public GroundDetectionData GroundDetectionData => groundDetectionData;
+
+        protected override void Start()
+        {
+            base.Start();
+            _rigidbody = GetComponent<Rigidbody>();
+        }
         
         protected override bool HookEvents()
         {
@@ -75,6 +98,7 @@ namespace Thicckitty
         private void Update()
         {
             EnemyAIControllerType?.Update(Time.deltaTime);
+            UpdaterComponent?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()
