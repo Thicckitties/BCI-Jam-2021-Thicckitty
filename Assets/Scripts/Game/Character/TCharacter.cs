@@ -34,6 +34,11 @@ namespace Thicckitty
             UpdateInputs();
         }
 
+        private void Awake()
+        {
+            playerPosition.Value = transform.position;
+        }
+
         private void LateUpdate()
         {
             playerPosition.Value = transform.position;
