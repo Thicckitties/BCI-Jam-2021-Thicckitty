@@ -60,7 +60,7 @@ public class Kick : MonoBehaviour
 
     private void FixedUpdate()
     {
-        launchPoint.right = ball.transform.position - launchPoint.position; // For arrow, may not add. Don't remove just not being used.
+        //launchPoint.right = ball.transform.position - launchPoint.position; // For arrow, may not add. Don't remove just not being used.
     }
 
 
@@ -98,7 +98,7 @@ public class Kick : MonoBehaviour
     {
         Vector3 kickPos = new Vector3(transform.position.x, transform.position.y - .2f, transform.position.z);
         ball.AddExplosionForce(kickPower, transform.position, 5);
-
+        Debug.Log("Kicked");
     }
 
  
