@@ -7,36 +7,39 @@ namespace Thicckitty
 {
     public class FollowPlayer : MonoBehaviour
     {
-        // Needs a dolly path
-        // dead distances from my scene: 12, -9
-        // Thanks and Enjoy! -Dex
-
-        private CinemachineTrackedDolly dolly;
+        [Header("SODA")]
+        [SerializeField] private SODA.Vector3Reference playerPosition;
         
-        [SerializeField] private SODA.Vector3Reference soda;
+        [Header("Dead Distance")]
         [SerializeField] private float deadDistance;
         [SerializeField] private float backDeadDistance;
-        private float playerStartPos;
-        private float lastPos;
+        
+        private float _playerStartPos;
+        private float _lastPos;
+        
+        private CinemachineTrackedDolly _dollyComponent;
 
-        // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-            dolly = GetComponent<CinemachineVirtualCamera>().GetCinemachineComponent<CinemachineTrackedDolly>();
-            playerStartPos = lastPos = soda.Value.z;
+            _dollyComponent = GetComponent<CinemachineVirtualCamera>()
+                ?.GetCinemachineComponent<CinemachineTrackedDolly>();
+            _playerStartPos = _lastPos = playerPosition.Value.z;
         }
 
-
-        // Update is called once per frame
-        void LateUpdate()
+        private void LateUpdate()
         {
-            if ((soda.Value.z - playerStartPos) - dolly.m_PathPosition * dolly.m_Path.PathLength > deadDistance || (soda.Value.z - playerStartPos) - dolly.m_PathPosition * dolly.m_Path.PathLength < backDeadDistance)
+            if (_dollyComponent)
             {
-                dolly.m_PathPosition += (soda.Value.z - lastPos) / dolly.m_Path.PathLength;
+                float difference = playerPosition.Value.z - _playerStartPos
+                                                          - (_dollyComponent.m_PathPosition * _dollyComponent.m_Path.PathLength);
+                if (difference > deadDistance 
+                    || difference < backDeadDistance)
+                {
+                    _dollyComponent.m_PathPosition 
+                        += (playerPosition.Value.z - _lastPos) / _dollyComponent.m_Path.PathLength;
+                }
             }
-            lastPos = soda.Value.z;
-                
+            _lastPos = playerPosition.Value.z;
         }
-
     }
 }

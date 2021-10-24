@@ -858,6 +858,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 40.29
+  groundDetectionData:
+    raycastLayerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    raycastOffset: {x: 0, y: 0, z: 0}
+    raycastDistance: 0
   playerPosition:
     isConstant: 0
     constantValue: {x: 0, y: 0, z: 0}
@@ -1746,6 +1752,10 @@ PrefabInstance:
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8506751594303291000, guid: 9e91faaa4da40aa43b154d833ee1b89c, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 2.07678
+      objectReference: {fileID: 0}
     - target: {fileID: 8506751594303291001, guid: 9e91faaa4da40aa43b154d833ee1b89c, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -1794,5 +1804,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: CM vcam2
       objectReference: {fileID: 0}
+    - target: {fileID: 8506751594303291006, guid: 9e91faaa4da40aa43b154d833ee1b89c, type: 3}
+      propertyPath: playerPosition.variable
+      value: 
+      objectReference: {fileID: 11400000, guid: 45538ffb241c9254fa94e5df4818a58f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e91faaa4da40aa43b154d833ee1b89c, type: 3}

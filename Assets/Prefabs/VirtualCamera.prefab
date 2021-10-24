@@ -134,7 +134,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.3, y: 1}
+    m_SensorSize: {x: 2.07678, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 543281b9a09f8914e9612ed6c7ba479b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soda:
+  playerPosition:
     isConstant: 0
     constantValue: {x: 0, y: 0, z: 0}
     variable: {fileID: 11400000, guid: 45538ffb241c9254fa94e5df4818a58f, type: 2}
