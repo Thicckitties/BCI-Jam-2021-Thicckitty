@@ -420,7 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a73024064b48b4f82c26738529dcea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToTransitionTo: Level 1
+  sceneToTransitionTo: Main Menu
 --- !u!1 &1884641510
 GameObject:
   m_ObjectHideFlags: 0
