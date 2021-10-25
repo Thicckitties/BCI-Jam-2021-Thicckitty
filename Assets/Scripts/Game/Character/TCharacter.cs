@@ -28,13 +28,14 @@ namespace Thicckitty
         
         [Header("Animations")]
         [SerializeField]
-        private Animator animator;
+        private TCharacterAnimationComponent animator;
         [SerializeField]
         private string idleAnimation;
         [SerializeField]
         private string walkingAnimation;
         [SerializeField]
         private string kickAnimation;
+
         
         [Header("SODA References")] 
         [SerializeField]
@@ -89,9 +90,11 @@ namespace Thicckitty
 
         protected override bool HookEvents()
         {
-            if (kick)
+            if (kick
+                && animator)
             {
                 kick.KickBallEvent += HandleKickBall;
+                animator.FinishedKickEvent += HandleKickBallFinished;
                 return true;
             }
             return false;
@@ -99,9 +102,11 @@ namespace Thicckitty
 
         protected override bool UnHookEvents()
         {
-            if (kick)
+            if (kick
+                && animator)
             {
                 kick.KickBallEvent -= HandleKickBall;
+                animator.FinishedKickEvent -= HandleKickBallFinished;
                 return true;
             }
             return false;
@@ -113,13 +118,13 @@ namespace Thicckitty
             {
                 if (animator)
                 {
-                    animator.Play(kickAnimation);
+                    animator.Animator.Play(kickAnimation);
                 }
                 _kicking = true;
             }
         }
 
-        public void HandleKickBallFinished()
+        private void HandleKickBallFinished()
         {
             if (_kicking)
             {
@@ -164,7 +169,7 @@ namespace Thicckitty
                 && !_kicking)
             {
                 string animation = isMoving ? walkingAnimation : idleAnimation;
-                animator.Play(animation);
+                animator.Animator.Play(animation);
             }
         }
 
