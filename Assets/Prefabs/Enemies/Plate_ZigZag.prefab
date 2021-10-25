@@ -200,11 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.pointColor.b
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.pointColor.g
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.pointColor.r
@@ -216,23 +216,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.zigZagNormal.x
-      value: 73.4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.zigZagNormal.z
-      value: 1.8
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.zigZagDirection.x
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.zigZagDirection.z
-      value: -9
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.differenceThreshold
-      value: 3.67
+      value: 8.58
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: sprite3DUpdaterData.spriteRenderer

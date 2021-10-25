@@ -18,5 +18,11 @@ namespace Thicckitty
             Application.Quit();
         }
 
+        public void Credits()
+        {
+            SceneManager.LoadScene("Credits");
+
+        }
+
     }
 }
