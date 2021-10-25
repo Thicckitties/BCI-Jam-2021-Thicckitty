@@ -6,7 +6,7 @@ namespace Thicckitty
 {
     public class EnemyDeath : MonoBehaviour
     {
-        // Start is called before the first frame update
+        public float knockBackForce;
         void Start()
         {
         
