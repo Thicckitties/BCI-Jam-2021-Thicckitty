@@ -143,6 +143,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
+      propertyPath: aiMovementSpeed
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
       propertyPath: sprite3DUpdaterData.spriteSide
       value: 0
       objectReference: {fileID: 0}
