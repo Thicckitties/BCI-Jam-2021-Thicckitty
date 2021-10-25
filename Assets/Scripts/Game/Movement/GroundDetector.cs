@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Thicckitty
 {
@@ -6,15 +7,22 @@ namespace Thicckitty
     [System.Serializable]
     public struct GroundDetectionData
     {
+        [System.Serializable]
+        public struct RaycastData
+        {      
+            [SerializeField]
+            public Vector3 raycastPositionOffset;
+            [SerializeField]
+            public float maxDistance;
+        }
+        
         [SerializeField]
         private LayerMask raycastLayerMask;
         [SerializeField]
-        private Vector3 raycastOffset;
-        [SerializeField, Min(0.01f)]
-        private float raycastDistance;
+        public RaycastData defaultRaycastData;
+        [SerializeField]
+        public List<RaycastData> raycastOffsets;
 
-        public Vector3 RaycastOffset => raycastOffset;
-        public float RaycastDistance => raycastDistance;
         public LayerMask RaycastLayerMask => raycastLayerMask;
     }
 
@@ -48,17 +56,50 @@ namespace Thicckitty
         public void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
-            Vector3 pos = _groundDetection.Transform.position + _groundDetection.GroundDetectionData.RaycastOffset;
-            Gizmos.DrawLine(pos,
-                pos + Vector3.down * _groundDetection.GroundDetectionData.RaycastDistance);
+            Gizmos.DrawRay(
+                _groundDetection.Transform.position 
+                + _groundDetection.GroundDetectionData.defaultRaycastData.raycastPositionOffset,
+                Vector3.down * _groundDetection.GroundDetectionData.defaultRaycastData.maxDistance);
+            
+            for (int i = 0; i < _groundDetection.GroundDetectionData.raycastOffsets.Count; i++)
+            {
+                GroundDetectionData.RaycastData offset 
+                    = _groundDetection.GroundDetectionData.raycastOffsets[i];
+                Gizmos.DrawRay(
+                    _groundDetection.Transform.position + offset.raycastPositionOffset,
+                    Vector3.down * offset.maxDistance);
+            }
         }
 
         public bool IsOnGround()
         {
+            bool onGround = IsOnGround(_groundDetection.GroundDetectionData.defaultRaycastData);
+            if (onGround)
+            {
+                return true;
+            }
+            
+            foreach(var raycastData in _groundDetection.GroundDetectionData.raycastOffsets)
+            {
+                if (IsOnGround(raycastData))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsOnGround(in GroundDetectionData.RaycastData raycastData)
+        {
+            return IsOnGround(raycastData.raycastPositionOffset, raycastData.maxDistance);
+        }
+
+        private bool IsOnGround(Vector3 offset, float maxDistance)
+        {
             RaycastHit[] outputRaycast =
                 Physics.RaycastAll(_groundDetection.Transform.position 
-                     + _groundDetection.GroundDetectionData.RaycastOffset, 
-                    Vector3.down, _groundDetection.GroundDetectionData.RaycastDistance, 
+                                   + offset,
+                    Vector3.down, maxDistance, 
                     _groundDetection.GroundDetectionData.RaycastLayerMask);
 
             if (outputRaycast.Length <= 0)

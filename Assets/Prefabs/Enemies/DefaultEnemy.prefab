@@ -107,6 +107,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aiMovementSpeed: 150
+  groundDetectionData:
+    raycastLayerMask:
+      serializedVersion: 2
+      m_Bits: 1
+    defaultRaycastData:
+      raycastPositionOffset: {x: 0, y: 0, z: 0}
+      maxDistance: 0.22
+    raycastOffsets:
+    - raycastPositionOffset: {x: 0.37, y: 0, z: 0.37}
+      maxDistance: 0.25
+    - raycastPositionOffset: {x: -0.37, y: 0, z: 0.37}
+      maxDistance: 0.25
+    - raycastPositionOffset: {x: 0.37, y: 0, z: -0.37}
+      maxDistance: 0.25
+    - raycastPositionOffset: {x: -0.37, y: 0, z: -0.37}
+      maxDistance: 0.25
+  sprite3DUpdaterData:
+    spriteSide: 0
+    spriteRenderer: {fileID: 0}
   controllerType: 0
   backAndForthData:
     minDistance: 0.3
@@ -121,13 +140,33 @@ MonoBehaviour:
       isConstant: 0
       constantValue: {x: 0, y: 0, z: 0}
       variable: {fileID: 11400000, guid: 45538ffb241c9254fa94e5df4818a58f, type: 2}
-    axisLocked: 6
-  groundDetectionData:
-    raycastLayerMask:
-      serializedVersion: 2
-      m_Bits: 1
-    raycastOffset: {x: 0, y: -0.01, z: 0}
-    raycastDistance: 0.2
+    xAxis: 0
+    yAxis: 0
+    zAxis: 0
+  rangedAIData:
+    rangeAmount: 0
+    projectileLaunchedOffset: 0
+    playerPosition:
+      isConstant: 0
+      constantValue: {x: 0, y: 0, z: 0}
+      variable: {fileID: 0}
+    projectilePrefab: {fileID: 0}
+    aimType: 0
+    changeInDirection_DirectionOne: {fileID: 0}
+    changeInDirection_DirectionTwo: {fileID: 0}
+    referenceType: 0
+    aimPosition_Transform: {fileID: 0}
+    aimPosition_SODAVec3:
+      isConstant: 0
+      constantValue: {x: 0, y: 0, z: 0}
+      variable: {fileID: 0}
+  zigZagAIData:
+    zigZagAmount: 0.01
+    zigZagDirection: {x: 0, y: 0, z: 0}
+    zigZagNormal: {x: 0, y: 0, z: 0}
+    differenceThreshold: 0
+    lineColor: {r: 0, g: 0, b: 0, a: 0}
+    pointColor: {r: 0, g: 0, b: 0, a: 0}
   positionColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1001 &6412304257023083902
 PrefabInstance:
