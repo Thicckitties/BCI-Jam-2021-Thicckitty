@@ -171,6 +171,10 @@ PrefabInstance:
       value: Cup_MimickedEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
+      propertyPath: controllerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: mimicMovementData.xAxis
       value: 2
       objectReference: {fileID: 0}
