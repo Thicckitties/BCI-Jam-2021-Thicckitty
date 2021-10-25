@@ -15,7 +15,9 @@ namespace Thicckitty
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                Destroy(gameObject);
                 SceneManager.LoadScene(sceneToTransitionTo);
+                return;
             }
         }
     }
