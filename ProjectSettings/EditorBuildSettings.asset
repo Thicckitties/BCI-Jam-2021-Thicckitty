@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Doms Lab.unity
     guid: db8bf721b8318134b81e3914771e06ab
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: d4dec9957e1b04749bad8e026cafd110
   m_configObjects: {}
