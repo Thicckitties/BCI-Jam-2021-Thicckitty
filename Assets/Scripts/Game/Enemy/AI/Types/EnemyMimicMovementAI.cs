@@ -96,6 +96,9 @@ namespace Thicckitty
 
         public override void Update(float deltaTime) { }
 
+#if UNITY_EDITOR
         public override void OnDrawGizmos() { }
+
+#endif
     }
 }
