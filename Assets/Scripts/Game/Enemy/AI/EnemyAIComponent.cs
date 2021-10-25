@@ -27,7 +27,13 @@ namespace Thicckitty
 
         [SerializeField]
         private Color positionColor = Color.black;
-
+        
+        [SerializeField]
+        private Animator animator;
+        [SerializeField]
+        private string walkAnimation;
+        
+        
         private Rigidbody _rigidbody;
         
         private GroundDetectionController _groundDetector;
@@ -108,10 +114,19 @@ namespace Thicckitty
 
         private void Update()
         {
+            UpdateAnimations();
             EnemyAIControllerType?.Update(Time.deltaTime);
             UpdaterComponent?.Update(Time.deltaTime);
         }
 
+        private void UpdateAnimations()
+        {
+            if (animator)
+            {
+                animator.Play(walkAnimation);
+            }
+        }
+        
         private void FixedUpdate()
         {
             EnemyAIControllerType?.FixedUpdate(Time.fixedDeltaTime);

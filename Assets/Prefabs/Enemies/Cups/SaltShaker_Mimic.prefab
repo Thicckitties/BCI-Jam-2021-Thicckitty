@@ -85,7 +85,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -4031561035092998076, guid: b9d0338ccf41fad4eb65bac0b4f85977, type: 3}
+  m_Sprite: {fileID: 1311091517629888982, guid: 01b58964b5cb993488b40f700b2ad7de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -172,19 +172,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958322, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: m_Name
-      value: Cup_MimickedEnemy
+      value: SaltShaker_Mimic
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958322, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: m_TagString
       value: Untagged
-      objectReference: {fileID: 0}
-    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 707085955503782337}
-    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
-      propertyPath: walkAnimation
-      value: CupLeg_Walk
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: controllerType
