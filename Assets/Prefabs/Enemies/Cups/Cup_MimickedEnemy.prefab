@@ -171,6 +171,14 @@ PrefabInstance:
       value: Cup_MimickedEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 707085955503782337}
+    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
+      propertyPath: walkAnimation
+      value: CupLeg_Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: controllerType
       value: 1
       objectReference: {fileID: 0}

@@ -152,6 +152,14 @@ PrefabInstance:
       value: 0.7802982
       objectReference: {fileID: 0}
     - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5429945031546135203}
+    - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
+      propertyPath: walkAnimation
+      value: PlantLegs_Walk
+      objectReference: {fileID: 0}
+    - target: {fileID: 6412304257028004640, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
       propertyPath: controllerType
       value: 0
       objectReference: {fileID: 0}

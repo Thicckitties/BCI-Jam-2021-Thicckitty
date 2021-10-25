@@ -8,7 +8,7 @@ namespace Thicckitty
     
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
-    public class TCharacter : MonoBehaviour, IGroundDetectionComponent, ISprite3DUpdater
+    public class TCharacter : EventsListener, IGroundDetectionComponent, ISprite3DUpdater
     {
         [Header("Movement")]
         [SerializeField, Min(0f)]
@@ -18,6 +18,10 @@ namespace Thicckitty
         [SerializeField]
         private GroundDetectionData groundDetectionData;
 
+        [Header("Behavior")] 
+        [SerializeField]
+        private Kick kick;
+        
         [Header("Visuals")] 
         [SerializeField]
         private Sprite3DUpdaterData sprite3DUpdaterData;
@@ -29,6 +33,8 @@ namespace Thicckitty
         private string idleAnimation;
         [SerializeField]
         private string walkingAnimation;
+        [SerializeField]
+        private string kickAnimation;
         
         [Header("SODA References")] 
         [SerializeField]
@@ -38,6 +44,8 @@ namespace Thicckitty
         private Rigidbody _rigidbody;
         private GroundDetectionController _groundDetector;
         private Sprite3DUpdaterComponent _spriteUpdater;
+
+        private bool _kicking = false;
         
         private Rigidbody Rigidbody
         {
@@ -79,6 +87,46 @@ namespace Thicckitty
             playerPosition.Value = transform.position;
         }
 
+        protected override bool HookEvents()
+        {
+            if (kick)
+            {
+                kick.KickBallEvent += HandleKickBall;
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool UnHookEvents()
+        {
+            if (kick)
+            {
+                kick.KickBallEvent -= HandleKickBall;
+                return true;
+            }
+            return false;
+        }
+
+        private void HandleKickBall(Kick kick)
+        {
+            if (!_kicking)
+            {
+                if (animator)
+                {
+                    animator.Play(kickAnimation);
+                }
+                _kicking = true;
+            }
+        }
+
+        public void HandleKickBallFinished()
+        {
+            if (_kicking)
+            {
+                _kicking = false;
+            }
+        }
+
         private void Update()
         {
             UpdateInputs();
@@ -112,7 +160,8 @@ namespace Thicckitty
         {
             bool isMoving = _rigidbody.velocity.sqrMagnitude 
                             > (velocityMagnitude * velocityMagnitude);
-            if (animator)
+            if (animator
+                && !_kicking)
             {
                 string animation = isMoving ? walkingAnimation : idleAnimation;
                 animator.Play(animation);
