@@ -20,11 +20,12 @@ namespace Thicckitty
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.other.CompareTag("Ball"))
+            if (collision.other.CompareTag("Ball"))
             {
                 //gameObject.GetComponent<EnemyAIComponent>().enabled = false;
                 gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 10000f);
-                //Destroy(gameObject,10);
+                //Destroy(gameObject);
+
             }
         }
     }
