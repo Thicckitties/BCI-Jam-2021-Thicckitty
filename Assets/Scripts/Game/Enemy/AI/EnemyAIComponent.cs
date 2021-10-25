@@ -25,6 +25,8 @@ namespace Thicckitty
         private EnemyMimicMovementAIData mimicMovementData;
         [SerializeField]
         private EnemyProjectileRangedAIData rangedAIData;
+        [SerializeField]
+        private ZigZagMovementAIData zigZagAIData;
 
         [SerializeField]
         private Color positionColor = Color.black;
@@ -60,6 +62,8 @@ namespace Thicckitty
         public EnemyMimicMovementAIData MimicMovementData => mimicMovementData;
 
         public EnemyProjectileRangedAIData RangedAIData => rangedAIData;
+
+        public ZigZagMovementAIData ZigZagAIData => zigZagAIData;
 
         public float AIMovementSpeed => aiMovementSpeed;
 
@@ -161,6 +165,27 @@ namespace Thicckitty
                         } 
                         break;
                     }
+                } 
+                break;
+                case AIControllerType.ZIG_ZAG_MOVEMENT:
+                {
+                    Vector3 currentForward = zigZagAIData.zigZagNormal.normalized;
+                    Vector3 zigZagDirection = zigZagAIData.zigZagDirection.normalized;
+                    Vector3 currentPosition = Transform.position;
+            
+                    for (int i = 0; i < 5; i++)
+                    {
+                        Vector3 endPosition = currentPosition
+                                              + zigZagDirection * zigZagAIData.zigZagAmount;
+                        
+                        Gizmos.color = ZigZagAIData.lineColor;
+                        Gizmos.DrawLine(currentPosition, endPosition);
+                        Gizmos.color = ZigZagAIData.pointColor;
+                        Gizmos.DrawSphere(endPosition, ZigZagAIData.differenceThreshold);
+                        
+                        zigZagDirection = Vector3.Reflect(zigZagDirection, currentForward);
+                        currentPosition = endPosition;
+                    }    
                 } 
                 break;
             }

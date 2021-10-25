@@ -16,6 +16,7 @@ namespace Thicckitty
         
         private SerializedProperty _backAndForthData;
         private SerializedProperty _mimicMovementData;
+        private SerializedProperty _zigZagAIData;
 
         private SerializedProperty _groundDetectionData;
 
@@ -28,6 +29,7 @@ namespace Thicckitty
             _controllerType = serializedObject.FindProperty("controllerType");
             _backAndForthData = serializedObject.FindProperty("backAndForthData");
             _positionColor = serializedObject.FindProperty("positionColor");
+            _zigZagAIData = serializedObject.FindProperty("zigZagAIData");
             _groundDetectionData = serializedObject.FindProperty("groundDetectionData");
             _sprite3DUpdaterData = serializedObject.FindProperty("sprite3DUpdaterData");
         }
@@ -63,6 +65,12 @@ namespace Thicckitty
                 case AIControllerType.CONTROLLER_TYPE_MIMIC_MOVEMENT:
                 {
                     EditorGUILayout.PropertyField(_mimicMovementData,
+                        new GUIContent("AI Data"));
+                }
+                break;
+                case AIControllerType.ZIG_ZAG_MOVEMENT:
+                {
+                    EditorGUILayout.PropertyField(_zigZagAIData,
                         new GUIContent("AI Data"));
                 }
                 break;
