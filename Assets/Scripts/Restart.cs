@@ -5,12 +5,17 @@ using UnityEngine.SceneManagement;
 namespace Thicckitty
 {
     public class Restart : MonoBehaviour
-    { 
-        void Update()
+    {
+        [SerializeField]
+        private string restartedScene;
+        
+        private void Update()
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
-                Scene scene = SceneManager.GetActiveScene(); SceneManager.LoadScene(scene.name);
+                SceneManager.LoadScene(restartedScene);
+                Destroy(gameObject);
+                return;
             }
         }
     }
