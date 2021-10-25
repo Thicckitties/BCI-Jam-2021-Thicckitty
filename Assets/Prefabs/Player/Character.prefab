@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 8220622071388064772}
   - component: {fileID: 7668908025562861084}
   - component: {fileID: 2130623931}
+  - component: {fileID: 8550686008339772854}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -210,6 +211,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a103e89185f7017419cded6523257301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8550686008339772854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8220622071388064778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5013a668c4f84960b13af4354fa75c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8220622072143409269
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,12 +290,14 @@ MonoBehaviour:
       maxDistance: 0.34
     - raycastPositionOffset: {x: -0.37, y: 0.1, z: 0.37}
       maxDistance: 0.34
+  kick: {fileID: 1357627096}
   sprite3DUpdaterData:
     spriteSide: 0
     spriteRenderer: {fileID: 8220622071388064772}
-  animator: {fileID: 7668908025562861084}
+  animator: {fileID: 8550686008339772854}
   idleAnimation: CatLeg_Idle
   walkingAnimation: CatLeg_Walk
+  kickAnimation: CatLeg_Kick
   playerPosition:
     isConstant: 0
     constantValue: {x: 0, y: 0, z: 0}
