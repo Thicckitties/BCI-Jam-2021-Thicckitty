@@ -6,12 +6,13 @@ namespace Thicckitty
 {
     public class EnemyDESTROY : MonoBehaviour
     {
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider other)
         {
-            if (collision.other.CompareTag("Enemy"))
+            if (other.tag == "Enemy")
             {
-              
-                Destroy(collision.other);
+               // other.GetComponent<EnemyAIComponent>().enabled = false;
+                Debug.Log("Yes");
+                Destroy(other.transform.parent.gameObject);
             }
         }
     }
