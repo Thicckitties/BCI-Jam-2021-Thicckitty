@@ -44,12 +44,11 @@ namespace Thicckitty
                 return _groundDetector;
             }
         }
-        
-        /*
-         private void Update()
+
+        private void Update()
         {
             UpdateInputs();
-        } */
+        }
 
         private void FixedUpdate()
         {
@@ -76,7 +75,6 @@ namespace Thicckitty
             _inputVector = inputVector;
         }
 
-        /*
         private void UpdateInputs()
         {
             _inputVector = Vector3.zero;
@@ -96,7 +94,7 @@ namespace Thicckitty
             {
                 _inputVector += transform.right;
             }
-        } */
+        }
         
         #if UNITY_EDITOR
 

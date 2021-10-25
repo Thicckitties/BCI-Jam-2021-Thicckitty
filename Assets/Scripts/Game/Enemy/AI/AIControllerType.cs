@@ -9,8 +9,8 @@ namespace Thicckitty
         CONTROLLER_TYPE_BACK_AND_FORTH,
         [InspectorName("Mimic Transform Movement")]
         CONTROLLER_TYPE_MIMIC_MOVEMENT,
-        [InspectorName("Spray Bottle Range")]
-        SPRAY_BOTTLE_RANGE
+        [InspectorName("Zig-Zag-Movement")]
+        ZIG_ZAG_MOVEMENT
     }
 
     public abstract class AEnemyAIControllerType
@@ -18,10 +18,10 @@ namespace Thicckitty
         protected readonly EnemyAIComponent _component;
         private readonly Rigidbody _rigidbody;
 
-        protected Rigidbody Rigidbody
+        public Rigidbody Rigidbody
             => _rigidbody;
 
-        protected Transform Transform
+        public Transform Transform
             => _component.transform;
 
         public AEnemyAIControllerType(EnemyAIComponent component)

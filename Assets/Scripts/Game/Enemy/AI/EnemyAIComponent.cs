@@ -23,6 +23,8 @@ namespace Thicckitty
         private EnemyBackAndForthAIData backAndForthData;
         [SerializeField]
         private EnemyMimicMovementAIData mimicMovementData;
+        [SerializeField]
+        private EnemyProjectileRangedAIData rangedAIData;
 
         [SerializeField]
         private Color positionColor = Color.black;
@@ -56,6 +58,8 @@ namespace Thicckitty
         public EnemyBackAndForthAIData BackAndForthAIData => backAndForthData;
 
         public EnemyMimicMovementAIData MimicMovementData => mimicMovementData;
+
+        public EnemyProjectileRangedAIData RangedAIData => rangedAIData;
 
         public float AIMovementSpeed => aiMovementSpeed;
 

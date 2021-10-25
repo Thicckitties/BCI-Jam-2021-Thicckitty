@@ -153,8 +153,8 @@ MonoBehaviour:
     raycastLayerMask:
       serializedVersion: 2
       m_Bits: 1
-    raycastOffset: {x: 0, y: -0.05, z: 0}
-    raycastDistance: 0.2
+    raycastOffset: {x: 0, y: 0.09, z: 0}
+    raycastDistance: 0.25
   playerPosition:
     isConstant: 0
     constantValue: {x: 0, y: 0, z: 0}
