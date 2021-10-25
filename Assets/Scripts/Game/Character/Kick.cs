@@ -29,7 +29,7 @@ namespace Thicckitty
         private void Start()
         {
             playerR = player.GetComponent<Rigidbody>(); // Grabs rigidbody from player and stores it s velocity to check if they are standing still
-            readyImage.material.color = Color.white;
+            readyImage.color = Color.white;
         }
 
         void  Update()
@@ -96,7 +96,7 @@ namespace Thicckitty
         public void Flashing() //Lerps between colors
         {
             t += Time.deltaTime;
-            readyImage.material.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(Mathf.Sin(t * 3)));
+            readyImage.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(Mathf.Sin(t * 3)));
 
         }
 
