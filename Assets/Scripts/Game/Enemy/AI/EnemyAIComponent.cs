@@ -1,7 +1,4 @@
-﻿using System;
-using Thicckitty.SODA;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
 namespace Thicckitty
 {
@@ -89,8 +86,14 @@ namespace Thicckitty
         {
             base.Start();
             _rigidbody = GetComponent<Rigidbody>();
+            EnemyManager.AddEnemy(this);
         }
-        
+
+        private void OnDestroy()
+        {
+            EnemyManager.RemoveEnemy(this);
+        }
+
         protected override bool HookEvents()
         {
             EnemyAIControllerType?.HookEvents();

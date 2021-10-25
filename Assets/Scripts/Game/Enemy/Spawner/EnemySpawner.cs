@@ -13,6 +13,9 @@ namespace Thicckitty
     [DisallowMultipleComponent]
     public class EnemySpawner : EventsListener
     {
+        public delegate void EnemySpawnerEventDelegate(EnemySpawner enemySpawner);
+        public EnemySpawnerEventDelegate EnemySpawnedEvent;
+        
         [Header("Spawner Variables")]
         [SerializeField, Min(0.01f)]
         private float maxDistanceFromPlayer;
@@ -30,7 +33,18 @@ namespace Thicckitty
         private SODA.Vector3Reference playerPosition;
 
         private bool _spawnedPrefab = false;
-        
+
+        protected override void Start()
+        {
+            base.Start();
+            EnemySpawnerManager.AddSpawner(this);
+        }
+
+        private void OnDestroy()
+        {
+            EnemySpawnerManager.RemoveSpawner(this);
+        }
+
         protected override bool HookEvents()
         {
             if (!playerPosition.HasVariable)
@@ -61,7 +75,10 @@ namespace Thicckitty
                 {
                     return;
                 }
-                _spawnedPrefab = SpawnEnemy();
+                if((_spawnedPrefab = SpawnEnemy()))
+                {
+                    EnemySpawnedEvent?.Invoke(this);
+                }
             }
         }
 
@@ -69,7 +86,7 @@ namespace Thicckitty
         {
             if (!prefab)
             {
-                return false;
+                return true;
             }
             GameObject.Instantiate(
                 prefab, transform.position, Quaternion.identity);
