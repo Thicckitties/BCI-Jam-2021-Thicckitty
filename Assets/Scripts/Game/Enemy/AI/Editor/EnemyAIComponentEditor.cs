@@ -18,6 +18,9 @@ namespace Thicckitty
         private SerializedProperty _mimicMovementData;
         private SerializedProperty _zigZagAIData;
 
+        private SerializedProperty _animator;
+        private SerializedProperty _walkAnimation;
+
         private SerializedProperty _groundDetectionData;
 
         private SerializedProperty _positionColor;
@@ -32,6 +35,8 @@ namespace Thicckitty
             _zigZagAIData = serializedObject.FindProperty("zigZagAIData");
             _groundDetectionData = serializedObject.FindProperty("groundDetectionData");
             _sprite3DUpdaterData = serializedObject.FindProperty("sprite3DUpdaterData");
+            _animator = serializedObject.FindProperty("animator");
+            _walkAnimation = serializedObject.FindProperty("walkAnimation");
         }
 
         public override void OnInspectorGUI()
@@ -48,6 +53,11 @@ namespace Thicckitty
             EditorGUILayout.LabelField("Visuals", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_sprite3DUpdaterData,
                 new GUIContent("Sprite 3D Updater Data"));
+            
+            EditorGUILayout.Separator();
+            EditorGUILayout.LabelField("Animation", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_animator);
+            EditorGUILayout.PropertyField(_walkAnimation);
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("AI", EditorStyles.boldLabel);

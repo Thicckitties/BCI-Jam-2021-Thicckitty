@@ -5,6 +5,9 @@ namespace Thicckitty
 {
     public class Kick : MonoBehaviour
     {
+        public delegate void KickBallEventDelegate(Kick kickScript);
+        public KickBallEventDelegate KickBallEvent;        
+        
         //Add U.I when kick is ready
         //Make it A.I compatible
        
@@ -101,7 +104,7 @@ namespace Thicckitty
         {
             Vector3 kickPos = new Vector3(transform.position.x, transform.position.y - .2f, transform.position.z);
             ball.AddExplosionForce(kickPower, transform.position, 5);
-            Debug.Log("Kicked");
+            KickBallEvent?.Invoke(this);
         }
     }
 }

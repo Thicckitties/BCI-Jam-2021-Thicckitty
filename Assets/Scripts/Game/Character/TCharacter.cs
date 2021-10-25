@@ -8,14 +8,34 @@ namespace Thicckitty
     
     [DisallowMultipleComponent]
     [RequireComponent(typeof(Rigidbody))]
-    public class TCharacter : MonoBehaviour, IGroundDetectionComponent
+    public class TCharacter : EventsListener, IGroundDetectionComponent, ISprite3DUpdater
     {
         [Header("Movement")]
         [SerializeField, Min(0f)]
         private float movementSpeed;
+        [SerializeField, Min(0.01f)]
+        private float velocityMagnitude = 0.01f;
         [SerializeField]
         private GroundDetectionData groundDetectionData;
 
+        [Header("Behavior")] 
+        [SerializeField]
+        private Kick kick;
+        
+        [Header("Visuals")] 
+        [SerializeField]
+        private Sprite3DUpdaterData sprite3DUpdaterData;
+        
+        [Header("Animations")]
+        [SerializeField]
+        private Animator animator;
+        [SerializeField]
+        private string idleAnimation;
+        [SerializeField]
+        private string walkingAnimation;
+        [SerializeField]
+        private string kickAnimation;
+        
         [Header("SODA References")] 
         [SerializeField]
         private SODA.Vector3Reference playerPosition;
@@ -23,6 +43,9 @@ namespace Thicckitty
         private Vector3 _inputVector = Vector3.zero;
         private Rigidbody _rigidbody;
         private GroundDetectionController _groundDetector;
+        private Sprite3DUpdaterComponent _spriteUpdater;
+
+        private bool _kicking = false;
         
         private Rigidbody Rigidbody
         {
@@ -33,7 +56,21 @@ namespace Thicckitty
             }
         }
 
+        public Sprite3DUpdaterData UpdaterData => sprite3DUpdaterData;
+
+        public Vector3 MovementDirection => _rigidbody.velocity.normalized;
+        
         public Transform Transform => transform;
+
+        public Sprite3DUpdaterComponent UpdaterComponent
+        {
+            get
+            {
+                _spriteUpdater ??= new Sprite3DUpdaterComponent(this);
+                return _spriteUpdater;
+            }
+        }
+        
         public GroundDetectionData GroundDetectionData => groundDetectionData;
 
         public GroundDetectionController GroundDetector
@@ -44,10 +81,58 @@ namespace Thicckitty
                 return _groundDetector;
             }
         }
+        
+        private void Awake()
+        {
+            playerPosition.Value = transform.position;
+        }
+
+        protected override bool HookEvents()
+        {
+            if (kick)
+            {
+                kick.KickBallEvent += HandleKickBall;
+                return true;
+            }
+            return false;
+        }
+
+        protected override bool UnHookEvents()
+        {
+            if (kick)
+            {
+                kick.KickBallEvent -= HandleKickBall;
+                return true;
+            }
+            return false;
+        }
+
+        private void HandleKickBall(Kick kick)
+        {
+            if (!_kicking)
+            {
+                if (animator)
+                {
+                    animator.Play(kickAnimation);
+                }
+                _kicking = true;
+            }
+        }
+
+        public void HandleKickBallFinished()
+        {
+            if (_kicking)
+            {
+                _kicking = false;
+            }
+        }
 
         private void Update()
         {
             UpdateInputs();
+            UpdateAnimations();
+            
+            UpdaterComponent?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()
@@ -60,10 +145,6 @@ namespace Thicckitty
             }
         }
 
-        private void Awake()
-        {
-            playerPosition.Value = transform.position;
-        }
 
         private void LateUpdate()
         {
@@ -73,6 +154,18 @@ namespace Thicckitty
         public void SetInputVector(in Vector3 inputVector)
         {
             _inputVector = inputVector;
+        }
+
+        private void UpdateAnimations()
+        {
+            bool isMoving = _rigidbody.velocity.sqrMagnitude 
+                            > (velocityMagnitude * velocityMagnitude);
+            if (animator
+                && !_kicking)
+            {
+                string animation = isMoving ? walkingAnimation : idleAnimation;
+                animator.Play(animation);
+            }
         }
 
         private void UpdateInputs()
