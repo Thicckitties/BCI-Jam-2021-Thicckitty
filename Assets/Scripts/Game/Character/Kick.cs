@@ -34,7 +34,7 @@ public class Kick : MonoBehaviour
     private void Start()
     {
         playerR = player.GetComponent<Rigidbody>(); // Grabs rigidbody from player and stores it s velocity to check if they are standing still
-
+        readyImage.material.color = Color.white;
     }
 
     void  Update()
@@ -52,7 +52,7 @@ public class Kick : MonoBehaviour
 
         if(flashingNow) //Flashing effect
         {
-            //Flashing();
+            Flashing();
             //Debug.Log("Fuck");
         }
 
@@ -82,6 +82,7 @@ public class Kick : MonoBehaviour
             if (other.tag == "Ball")
             {
                 kickReady = true;
+              
             }
         }
     }
@@ -92,7 +93,7 @@ public class Kick : MonoBehaviour
         {
             kickReady = false;
             flashingNow = false;
-            //readyImage.material.color = Color.white;
+            readyImage.material.color = Color.white;
             //Stop when false
         }
     }
