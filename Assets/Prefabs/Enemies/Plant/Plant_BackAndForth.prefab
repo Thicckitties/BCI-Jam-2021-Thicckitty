@@ -143,6 +143,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.07
       objectReference: {fileID: 0}
+    - target: {fileID: 6412304255623426947, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     - target: {fileID: 6412304255623426949, guid: 2ac41a82f651f5a4b8a597461762ec2b, type: 3}
       propertyPath: m_Size.y
       value: 1.5581797
