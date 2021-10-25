@@ -88,7 +88,7 @@ namespace Thicckitty
             {
                 kickReady = false;
                 flashingNow = false;
-                readyImage.material.color = Color.white;
+                readyImage.color = Color.white;
                 //Stop when false
             }
         }
