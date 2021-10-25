@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 47.13
+  velocityMagnitude: 0.01
   groundDetectionData:
     raycastLayerMask:
       serializedVersion: 2
@@ -276,6 +277,12 @@ MonoBehaviour:
       maxDistance: 0.34
     - raycastPositionOffset: {x: -0.37, y: 0.1, z: 0.37}
       maxDistance: 0.34
+  sprite3DUpdaterData:
+    spriteSide: 0
+    spriteRenderer: {fileID: 8220622071388064772}
+  animator: {fileID: 7668908025562861084}
+  idleAnimation: CatLeg_Idle
+  walkingAnimation: CatLeg_Walk
   playerPosition:
     isConstant: 0
     constantValue: {x: 0, y: 0, z: 0}
@@ -333,7 +340,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8220622072145614762}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8220622072143409270}
