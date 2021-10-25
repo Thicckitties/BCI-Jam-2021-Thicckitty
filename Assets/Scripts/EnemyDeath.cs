@@ -22,7 +22,9 @@ namespace Thicckitty
         {
             if(collision.other.CompareTag("Ball"))
             {
-                Destroy(gameObject);
+                //gameObject.GetComponent<EnemyAIComponent>().enabled = false;
+                gameObject.GetComponent<Rigidbody>().AddForce(transform.forward * 10000f);
+                //Destroy(gameObject,10);
             }
         }
     }
