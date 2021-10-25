@@ -3,15 +3,15 @@
 namespace Thicckitty
 {
     
-    [System.Serializable, System.Flags]
-    public enum EnemyMimicAxisLocked
+    [System.Serializable]
+    public enum EnemyAxisSettingsType
     {
-        [InspectorName("Lock X Axis")]
-        AXIS_LOCKED_X = 1 << 0,
-        [InspectorName("Lock Y Axis")]
-        AXIS_LOCKED_Y = 1 << 1,
-        [InspectorName("Lock Z Axis")]
-        AXIS_LOCKED_Z = 1 << 2
+        [InspectorName("Normal Axis")]
+        AXIS_NORMAL,
+        [InspectorName("Lock Axis")]
+        AXIS_LOCKED,
+        [InspectorName("Opposite Axis")]
+        AXIS_OPPOSITE
     }
 
     [System.Serializable]
@@ -22,26 +22,32 @@ namespace Thicckitty
         [SerializeField]
         public SODA.Vector3Reference targetPosition;
         [SerializeField]
-        private EnemyMimicAxisLocked axisLocked;
+        private EnemyAxisSettingsType xAxis;
+        [SerializeField]
+        private EnemyAxisSettingsType yAxis;
+        [SerializeField]
+        private EnemyAxisSettingsType zAxis;
 
         public float DistanceThreshold => distanceThreshold;
 
         public void ApplyLockedValues(ref Vector3 vector)
         {
-            if (axisLocked.HasFlag(EnemyMimicAxisLocked.AXIS_LOCKED_X))
+            vector.x = ApplyToAxis(vector.x, xAxis);
+            vector.y = ApplyToAxis(vector.y, yAxis);
+            vector.z = ApplyToAxis(vector.z, zAxis);
+        }
+
+        private static float ApplyToAxis(in float axisValue, in EnemyAxisSettingsType axis)
+        {
+            switch (axis)
             {
-                vector.x = 0.0f;
+                case EnemyAxisSettingsType.AXIS_LOCKED:
+                    return 0.0f;
+                case EnemyAxisSettingsType.AXIS_OPPOSITE:
+                    return -axisValue;
             }
 
-            if (axisLocked.HasFlag(EnemyMimicAxisLocked.AXIS_LOCKED_Y))
-            {
-                vector.y = 0.0f;
-            }
-
-            if (axisLocked.HasFlag(EnemyMimicAxisLocked.AXIS_LOCKED_Z))
-            {
-                vector.z = 0.0f;
-            }
+            return axisValue;
         }
     }
     

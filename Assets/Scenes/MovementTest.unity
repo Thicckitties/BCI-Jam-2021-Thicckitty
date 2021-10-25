@@ -387,6 +387,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Plant_BackAndForth
       objectReference: {fileID: 0}
+    - target: {fileID: 4458231743915601823, guid: 0c1da2edf4a77a2458da4f87f9b5981b, type: 3}
+      propertyPath: controllerType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458231743915601823, guid: 0c1da2edf4a77a2458da4f87f9b5981b, type: 3}
+      propertyPath: mimicMovementData.xAxis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458231743915601823, guid: 0c1da2edf4a77a2458da4f87f9b5981b, type: 3}
+      propertyPath: mimicMovementData.yAxis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4458231743915601823, guid: 0c1da2edf4a77a2458da4f87f9b5981b, type: 3}
+      propertyPath: mimicMovementData.zAxis
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c1da2edf4a77a2458da4f87f9b5981b, type: 3}
 --- !u!1 &1095856331
