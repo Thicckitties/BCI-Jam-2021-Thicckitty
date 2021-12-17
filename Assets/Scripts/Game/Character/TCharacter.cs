@@ -18,6 +18,14 @@ namespace Thicckitty
         [SerializeField]
         private GroundDetectionData groundDetectionData;
 
+        [Header("Camera")]
+        [SerializeField]
+        private CameraController cameraController;
+        [SerializeField, Min(0.01f)]
+        private float xSense;
+        [SerializeField, Min(0.01f)]
+        private float ySense;
+
         [Header("Behavior")] 
         [SerializeField]
         private Kick kick;
@@ -42,6 +50,7 @@ namespace Thicckitty
         private SODA.Vector3Reference playerPosition;
 
         private Vector3 _inputVector = Vector3.zero;
+        private Vector2 _cameraVector = Vector2.zero;
         private Rigidbody _rigidbody;
         private GroundDetectionController _groundDetector;
         private Sprite3DUpdaterComponent _spriteUpdater;
@@ -148,6 +157,8 @@ namespace Thicckitty
                 Rigidbody.AddForce(
                     _inputVector.normalized * movementSpeed);                
             }
+            transform.Rotate(0, xSense * _cameraVector.x, 0);
+            cameraController.VertRotation(ySense * _cameraVector.y);
         }
 
 
@@ -192,6 +203,8 @@ namespace Thicckitty
             {
                 _inputVector += transform.right;
             }
+            _cameraVector.x = Input.GetAxis("Mouse X");
+            _cameraVector.y = Input.GetAxis("Mouse Y");
         }
         
         #if UNITY_EDITOR

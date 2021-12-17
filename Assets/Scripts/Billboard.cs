@@ -8,9 +8,16 @@ namespace Thicckitty
     {
         [SerializeField] private static Transform cam;
 
+        private void Start()
+        {
+            cam = FindObjectOfType<Camera>().transform;
+        }
+
         void Update()
         {
-            transform.LookAt(cam);
+            Vector3 lookPoint = cam.transform.position;
+            lookPoint.y = transform.position.y;
+            transform.LookAt(lookPoint);
         }
     }
 }
