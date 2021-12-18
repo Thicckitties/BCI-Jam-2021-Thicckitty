@@ -145,22 +145,29 @@ namespace Thicckitty
         {
             UpdateInputs();
             UpdateAnimations();
+            UpdateCamera(Time.deltaTime);
             
             UpdaterComponent?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()
         {
-            
             if (GroundDetector.IsOnGround())
             {
                 Rigidbody.AddForce(
                     _inputVector.normalized * movementSpeed);                
             }
-            transform.Rotate(0, xSense * _cameraVector.x, 0);
-            cameraController.VertRotation(ySense * _cameraVector.y);
         }
 
+        private void UpdateCamera(float deltaTime)
+        {
+            transform.Rotate(0, xSense * _cameraVector.x, 0);
+
+            if (cameraController)
+            {
+                cameraController?.VertRotation(ySense * _cameraVector.y);
+            }
+        }
 
         private void LateUpdate()
         {

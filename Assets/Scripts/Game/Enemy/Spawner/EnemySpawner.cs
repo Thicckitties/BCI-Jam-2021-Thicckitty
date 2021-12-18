@@ -75,7 +75,7 @@ namespace Thicckitty
                 {
                     return;
                 }
-                if((_spawnedPrefab = SpawnEnemy()))
+                if(SpawnEnemy())
                 {
                     EnemySpawnedEvent?.Invoke(this);
                 }
