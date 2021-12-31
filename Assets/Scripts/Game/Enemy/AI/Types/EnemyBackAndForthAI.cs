@@ -91,6 +91,10 @@ namespace Thicckitty
 
         public override void FixedUpdate(float deltaTime)
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
             Vector3 difference = TargetPosition - Transform.position;
             float squareDistance = difference.sqrMagnitude;
             float minDistanceToThreshold = 

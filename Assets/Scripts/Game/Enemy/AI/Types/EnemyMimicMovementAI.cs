@@ -74,6 +74,10 @@ namespace Thicckitty
 
         public override void FixedUpdate(float deltaTime)
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
             Vector3 difference = TargetPosition - _targetPrevPosition;
             Vector3 direction = difference;
             MimicMovementAIData.ApplyLockedValues(ref direction);

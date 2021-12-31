@@ -46,6 +46,10 @@ namespace Thicckitty
 
         public override void FixedUpdate(float deltaTime)
         {
+            if (!IsEnabled)
+            {
+                return;
+            }
             Vector3 targetDifference = _targetPosition - Transform.position;
             float magnitude = targetDifference.sqrMagnitude;
             float differenceThreshold = ZigZagMovement.differenceThreshold

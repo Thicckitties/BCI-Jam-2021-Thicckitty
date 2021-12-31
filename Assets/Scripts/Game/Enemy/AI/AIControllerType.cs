@@ -17,12 +17,15 @@ namespace Thicckitty
     {
         protected readonly EnemyAIComponent _component;
         private readonly Rigidbody _rigidbody;
+        private bool _enabled = true;
 
         public Rigidbody Rigidbody
             => _rigidbody;
 
         public Transform Transform
             => _component.transform;
+
+        public bool IsEnabled => _enabled;
 
         public AEnemyAIControllerType(EnemyAIComponent component)
         {
@@ -37,6 +40,11 @@ namespace Thicckitty
         public abstract void FixedUpdate(float deltaTime);
         public abstract void Update(float deltaTime);
 
+        public void SetEnabled(bool enabled)
+        {
+            _enabled = enabled;
+        }
+        
         #if UNITY_EDITOR
         
         public abstract void OnDrawGizmos();

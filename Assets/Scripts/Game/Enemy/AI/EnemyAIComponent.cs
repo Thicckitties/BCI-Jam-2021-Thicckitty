@@ -4,8 +4,12 @@ namespace Thicckitty
 {
     
     [RequireComponent(typeof(Rigidbody))]
-    public class EnemyAIComponent : EventsListener, IGroundDetectionComponent, ISprite3DUpdater
+    public class EnemyAIComponent : EventsListener, IGroundDetectionComponent, 
+        ISprite3DUpdater, IEnemyAttackComponent
     {
+        [SerializeField]
+        public SODA.Vector3Reference playerPosition;        
+        
         [SerializeField, UnityEngine.Min(0.0f)]
         private float aiMovementSpeed = 0.0f;
         [SerializeField]
@@ -21,10 +25,13 @@ namespace Thicckitty
         [SerializeField]
         private EnemyMimicMovementAIData mimicMovementData;
         [SerializeField]
-        private EnemyProjectileRangedAIData rangedAIData;
-        [SerializeField]
         private ZigZagMovementAIData zigZagAIData;
-
+        
+        [SerializeField]
+        private EnemyAttackType attackType;
+        [SerializeField]
+        private RangedEnemyTypeData rangedAttackData;
+        
         [SerializeField]
         private Color positionColor = Color.black;
         
@@ -39,6 +46,17 @@ namespace Thicckitty
         private GroundDetectionController _groundDetector;
         private AEnemyAIControllerType _enemyControllerType;
         private Sprite3DUpdaterComponent _updaterComponent;
+        private AEnemyAttackType _enemyAttackType;
+
+
+        private AEnemyAttackType EnemyAttackType
+        {
+            get
+            {
+                _enemyAttackType ??= AEnemyAttackType.Create(attackType, this);
+                return _enemyAttackType;
+            }
+        }
         
         private AEnemyAIControllerType EnemyAIControllerType
         {
@@ -64,8 +82,6 @@ namespace Thicckitty
 
         public EnemyMimicMovementAIData MimicMovementData => mimicMovementData;
 
-        public EnemyProjectileRangedAIData RangedAIData => rangedAIData;
-
         public ZigZagMovementAIData ZigZagAIData => zigZagAIData;
 
         public float AIMovementSpeed => aiMovementSpeed;
@@ -74,8 +90,11 @@ namespace Thicckitty
 
         public Sprite3DUpdaterData UpdaterData => sprite3DUpdaterData;
         public Vector3 MovementDirection => _rigidbody.velocity.normalized;
-        
+
+        public RangedEnemyTypeData RangedEnemyTypeData => rangedAttackData;
         public Transform Transform => transform;
+        public Vector3 TargetPosition => playerPosition.Value;
+        
 
         public Sprite3DUpdaterComponent UpdaterComponent
         {
@@ -103,13 +122,29 @@ namespace Thicckitty
         protected override bool HookEvents()
         {
             EnemyAIControllerType?.HookEvents();
+            EnemyAttackType?.HookEvents();
+
+            if (EnemyAttackType != null)
+            {
+                EnemyAttackType.EnemySetAttacking += HandleEnemySetAttacking;
+            }
             return true;
         }
 
         protected override bool UnHookEvents()
         {
             EnemyAIControllerType?.UnHookEvents();
+            EnemyAttackType?.UnHookEvents();
+            if (EnemyAttackType != null)
+            {
+                EnemyAttackType.EnemySetAttacking -= HandleEnemySetAttacking;
+            }
             return true;
+        }
+
+        private void HandleEnemySetAttacking(AEnemyAttackType type, bool attacking)
+        {
+            EnemyAIControllerType?.SetEnabled(!attacking);
         }
 
         private void Update()
@@ -117,6 +152,7 @@ namespace Thicckitty
             UpdateAnimations();
             EnemyAIControllerType?.Update(Time.deltaTime);
             UpdaterComponent?.Update(Time.deltaTime);
+            EnemyAttackType?.OnUpdate(Time.deltaTime);
         }
 
         private void UpdateAnimations()
