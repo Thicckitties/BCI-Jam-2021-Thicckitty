@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Thicckitty
 {
@@ -16,10 +17,21 @@ namespace Thicckitty
         public Transform ballLookAt;
         public Transform launchPoint;
         public GameObject player;
+        public Camera camera;
         public Image readyImage;
+        public Transform imageTwist;
         public bool flashingNow;
         public bool kickReady;
 
+        [Header("Shake Camera Settings")]
+
+       public float strengh;
+       public int vibration;
+       public float duration;
+       public float randomDirection;
+
+
+  
         private float t; //Time
         private Rigidbody playerR;
 
@@ -28,6 +40,7 @@ namespace Thicckitty
 
         private void Start()
         {
+           
             playerR = player.GetComponent<Rigidbody>(); // Grabs rigidbody from player and stores it s velocity to check if they are standing still
             readyImage.color = Color.white;
         }
@@ -97,6 +110,7 @@ namespace Thicckitty
         {
             t += Time.deltaTime;
             readyImage.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(Mathf.Sin(t * 3)));
+            imageTwist.DOShakeRotation(0.5f, 0.3f, 1, 2, false);
 
         }
 
@@ -105,6 +119,13 @@ namespace Thicckitty
             Vector3 kickPos = new Vector3(transform.position.x, transform.position.y - .2f, transform.position.z);
             ball.AddExplosionForce(kickPower, transform.position, 5);
             KickBallEvent?.Invoke(this);
+            Tween();
+        }
+
+
+        public void Tween()
+        {
+            camera.DOShakePosition(duration, strengh, vibration, randomDirection, true);
         }
     }
 }
