@@ -9,6 +9,9 @@ namespace Thicckitty
     public class EnemyAIComponentEditor : Editor
     {
 
+        private SerializedProperty _attackType;
+        private SerializedProperty _rangedAttackData;
+
         private SerializedProperty _aiMovementSpeed;
         private SerializedProperty _controllerType;
 
@@ -37,6 +40,8 @@ namespace Thicckitty
             _sprite3DUpdaterData = serializedObject.FindProperty("sprite3DUpdaterData");
             _animator = serializedObject.FindProperty("animator");
             _walkAnimation = serializedObject.FindProperty("walkAnimation");
+            _attackType = serializedObject.FindProperty("attackType");
+            _rangedAttackData = serializedObject.FindProperty("rangedAttackData");
         }
 
         public override void OnInspectorGUI()
@@ -60,10 +65,9 @@ namespace Thicckitty
             EditorGUILayout.PropertyField(_walkAnimation);
             
             EditorGUILayout.Separator();
-            EditorGUILayout.LabelField("AI", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_controllerType,
                 new GUIContent("Controller Type"));
-
             switch ((AIControllerType)_controllerType.enumValueIndex)
             {
                 case AIControllerType.CONTROLLER_TYPE_BACK_AND_FORTH:
@@ -86,6 +90,22 @@ namespace Thicckitty
                 break;
             }
             EditorGUILayout.Separator();
+            
+            EditorGUILayout.Separator();
+            EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_attackType,
+                new GUIContent("Attack Type"));
+            switch ((EnemyAttackType) _attackType.enumValueIndex)
+            {
+                case EnemyAttackType.TYPE_RANGED_ENEMY:
+                {
+                    EditorGUILayout.PropertyField(_rangedAttackData,
+                        new GUIContent("Ranged Attack Data"));
+                    break;
+                }
+            }
+            EditorGUILayout.Separator();
+            
             EditorGUILayout.LabelField("Gizmos", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_positionColor,
                 new GUIContent("Position Color"));
