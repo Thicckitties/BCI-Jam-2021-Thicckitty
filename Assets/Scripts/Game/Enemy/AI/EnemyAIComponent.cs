@@ -7,8 +7,6 @@ namespace Thicckitty
     public class EnemyAIComponent : EventsListener, IGroundDetectionComponent, 
         ISprite3DUpdater, IEnemyAttackComponent
     {
-        [SerializeField]
-        public SODA.Vector3Reference playerPosition;        
         
         [SerializeField, UnityEngine.Min(0.0f)]
         private float aiMovementSpeed = 0.0f;
@@ -30,6 +28,10 @@ namespace Thicckitty
         [SerializeField]
         private EnemyAttackType attackType;
         [SerializeField]
+        private SODA.Vector3Reference targetPosition;
+        [SerializeField]
+        private bool controlledByAnimations;
+        [SerializeField]
         private RangedEnemyTypeData rangedAttackData;
         
         [SerializeField]
@@ -45,9 +47,11 @@ namespace Thicckitty
         
         private GroundDetectionController _groundDetector;
         private AEnemyAIControllerType _enemyControllerType;
-        private Sprite3DUpdaterComponent _updaterComponent;
+        private Sprite3DUpdaterBehaviour _updaterBehaviour;
         private AEnemyAttackType _enemyAttackType;
 
+
+        public bool IsControlledByAnimations => controlledByAnimations;
 
         private AEnemyAttackType EnemyAttackType
         {
@@ -93,15 +97,15 @@ namespace Thicckitty
 
         public RangedEnemyTypeData RangedEnemyTypeData => rangedAttackData;
         public Transform Transform => transform;
-        public Vector3 TargetPosition => playerPosition.Value;
+        public Vector3 TargetPosition => targetPosition.Value;
         
 
-        public Sprite3DUpdaterComponent UpdaterComponent
+        public Sprite3DUpdaterBehaviour UpdaterBehaviour
         {
             get
             {
-                _updaterComponent ??= new Sprite3DUpdaterComponent(this);
-                return _updaterComponent;
+                _updaterBehaviour ??= new Sprite3DUpdaterBehaviour(this);
+                return _updaterBehaviour;
             }
         }
         
@@ -151,7 +155,7 @@ namespace Thicckitty
         {
             UpdateAnimations();
             EnemyAIControllerType?.Update(Time.deltaTime);
-            UpdaterComponent?.Update(Time.deltaTime);
+            UpdaterBehaviour?.Update(Time.deltaTime);
             EnemyAttackType?.OnUpdate(Time.deltaTime);
         }
 
@@ -181,6 +185,7 @@ namespace Thicckitty
                 DrawGizmosInGame();
             }
             GroundDetector.OnDrawGizmos();
+            EnemyAttackType?.OnDrawGizmos();
         }
 
         private void DrawGizmosInEditor()

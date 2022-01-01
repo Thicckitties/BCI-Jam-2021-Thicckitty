@@ -10,6 +10,8 @@ namespace Thicckitty
     {
 
         private SerializedProperty _attackType;
+        private SerializedProperty _targetPosition;
+        private SerializedProperty _controlledByAnimations;
         private SerializedProperty _rangedAttackData;
 
         private SerializedProperty _aiMovementSpeed;
@@ -42,6 +44,8 @@ namespace Thicckitty
             _walkAnimation = serializedObject.FindProperty("walkAnimation");
             _attackType = serializedObject.FindProperty("attackType");
             _rangedAttackData = serializedObject.FindProperty("rangedAttackData");
+            _targetPosition = serializedObject.FindProperty("targetPosition");
+            _controlledByAnimations = serializedObject.FindProperty("controlledByAnimations");
         }
 
         public override void OnInspectorGUI()
@@ -95,6 +99,13 @@ namespace Thicckitty
             EditorGUILayout.LabelField("Attack", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_attackType,
                 new GUIContent("Attack Type"));
+            if ((EnemyAttackType)_attackType.enumValueIndex != EnemyAttackType.TYPE_NONE)
+            {
+                EditorGUILayout.PropertyField(_targetPosition, 
+                    new GUIContent("Target Position"));
+                EditorGUILayout.PropertyField(_controlledByAnimations,
+                    new GUIContent("Controlled By Animations"));
+            }
             switch ((EnemyAttackType) _attackType.enumValueIndex)
             {
                 case EnemyAttackType.TYPE_RANGED_ENEMY:

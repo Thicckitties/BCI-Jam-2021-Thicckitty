@@ -14,7 +14,7 @@ namespace Thicckitty
     {
         private Rigidbody _rigidbody;
 
-        public new Rigidbody Rigidbody
+        public Rigidbody Rigidbody
         {
             get
             {

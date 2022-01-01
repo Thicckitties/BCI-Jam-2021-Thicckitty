@@ -19,12 +19,19 @@ namespace Thicckitty
         {
             get;
         }
+
+        bool IsControlledByAnimations
+        {
+            get;
+        }
     }
 
     [System.Serializable]
     public enum EnemyAttackType
     {
+        [InspectorName("None")]
         TYPE_NONE,
+        [InspectorName("Ranged Enemy")]
         TYPE_RANGED_ENEMY
     }    
     
@@ -97,6 +104,12 @@ namespace Thicckitty
         public abstract void ApplyAttack();
 
         public abstract void OnUpdate(float deltaTime);
+        
+        #if UNITY_EDITOR
+
+        public abstract void OnDrawGizmos();
+        
+        #endif
         
         public abstract EnemyAttackType GetAttackType();
 

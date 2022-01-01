@@ -53,7 +53,7 @@ namespace Thicckitty
         private Vector2 _cameraVector = Vector2.zero;
         private Rigidbody _rigidbody;
         private GroundDetectionController _groundDetector;
-        private Sprite3DUpdaterComponent _spriteUpdater;
+        private Sprite3DUpdaterBehaviour _spriteUpdater;
 
         private bool _kicking = false;
         
@@ -72,11 +72,11 @@ namespace Thicckitty
         
         public Transform Transform => transform;
 
-        public Sprite3DUpdaterComponent UpdaterComponent
+        public Sprite3DUpdaterBehaviour UpdaterBehaviour
         {
             get
             {
-                _spriteUpdater ??= new Sprite3DUpdaterComponent(this);
+                _spriteUpdater ??= new Sprite3DUpdaterBehaviour(this);
                 return _spriteUpdater;
             }
         }
@@ -147,7 +147,7 @@ namespace Thicckitty
             UpdateAnimations();
             UpdateCamera(Time.deltaTime);
             
-            UpdaterComponent?.Update(Time.deltaTime);
+            UpdaterBehaviour?.Update(Time.deltaTime);
         }
 
         private void FixedUpdate()

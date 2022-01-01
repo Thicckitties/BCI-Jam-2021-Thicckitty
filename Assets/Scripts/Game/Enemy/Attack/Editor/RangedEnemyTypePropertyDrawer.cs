@@ -10,11 +10,34 @@ namespace Thicckitty
         {
             SerializedProperty projectilePrefab = property.FindPropertyRelative("projectilePrefab");
             SerializedProperty projectileLaunchPosition = property.FindPropertyRelative("projectileLaunchPosition");
-            int numProperties = GetNumberOfPropertiesInFields(projectilePrefab, projectileLaunchPosition);
+            SerializedProperty projectileAdditionalForce = property.FindPropertyRelative("projectileAdditionalForce");
+            SerializedProperty hasUpMotion = property.FindPropertyRelative("hasUpMotion");
+            SerializedProperty upRotation = property.FindPropertyRelative("upRotation");
+            
+            int numProperties = GetNumberOfPropertiesInFields(projectilePrefab, projectileLaunchPosition,
+                projectileAdditionalForce, hasUpMotion) + 1;
             if (draw)
             {
-                DisplayField(projectilePrefab, "Projectile Prefab");
-                DisplayField(projectileLaunchPosition, "Projectile Launch Position");
+                DisplayLabelField("Projectile Settings");
+                DisplayField(projectilePrefab, "Prefab");
+                DisplayField(projectileLaunchPosition, "Launch Position");
+                DisplayField(projectileAdditionalForce, "Additional Force");
+                DisplayField(hasUpMotion, "Has Up Motion");
+            }
+
+            if (hasUpMotion.boolValue)
+            {
+                numProperties += GetNumberOfPropertiesInField(upRotation);
+                if (draw)
+                {
+                    DisplayField(upRotation, "Up Rotation");
+                }
+            }
+
+            numProperties++;
+            if (draw)
+            {
+                DisplaySeparator();
             }
             
             SerializedProperty hasMaxRange = property.FindPropertyRelative("hasMaxRange");
@@ -23,7 +46,7 @@ namespace Thicckitty
             {
                 DisplayField(hasMaxRange, "Has Max Range");
             }
-            
+
             numProperties += GetNumberOfPropertiesInField(hasMaxRange);
             if (hasMaxRange.boolValue)
             {
@@ -103,7 +126,7 @@ namespace Thicckitty
                 numProperties += GetNumberOfPropertiesInField(betweenShotsCooldown);
                 if (draw)
                 {
-                    DisplayField(betweenShotsCooldown, "Num Projectiles");
+                    DisplayField(betweenShotsCooldown, "Between Shots Cooldown");
                 }
             }
             else
@@ -111,8 +134,8 @@ namespace Thicckitty
                 numProperties += GetNumberOfPropertiesInFields(minBetweenShotsCooldown, maxBetweenShotsCooldown);
                 if (draw)
                 {
-                    DisplayField(minBetweenShotsCooldown, "Min Projectiles");
-                    DisplayField(maxBetweenShotsCooldown, "Max Projectiles");
+                    DisplayField(minBetweenShotsCooldown, "Min Between Shots Cooldown");
+                    DisplayField(maxBetweenShotsCooldown, "Max Between Shots Cooldown");
                 }
             }
             return numProperties;
