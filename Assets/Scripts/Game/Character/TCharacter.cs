@@ -181,7 +181,7 @@ namespace Thicckitty
 
         private void UpdateAnimations()
         {
-            bool isMoving = _rigidbody.velocity.sqrMagnitude 
+            bool isMoving = Rigidbody.velocity.sqrMagnitude 
                             > (velocityMagnitude * velocityMagnitude);
             if (animator
                 && !_kicking)
@@ -219,6 +219,12 @@ namespace Thicckitty
         private void OnDrawGizmos()
         {
             GroundDetector.OnDrawGizmos();
+
+            // Used so that we don't run all of this in editor.
+            if (!Application.isPlaying)
+            {
+                playerPosition.Value = transform.position;
+            }
         }
 
 #endif

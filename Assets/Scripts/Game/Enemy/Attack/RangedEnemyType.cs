@@ -243,12 +243,12 @@ namespace Thicckitty
         {
             if (RangedEnemyTypeData.projectileLaunchPosition)
             {
-                Gizmos.color = Color.blue;
+                Gizmos.color = CanAttackTarget() ? Color.red : Color.blue;
                 Gizmos.DrawSphere(RangedEnemyTypeData.projectileLaunchPosition.position, 0.5f);
 
                 if (RangedEnemyTypeData.HasMaxRange)
                 {
-                    Handles.color = Color.blue;
+                    Handles.color = Gizmos.color;
                     Handles.DrawWireDisc(RangedEnemyTypeData.projectileLaunchPosition.position,
                         Vector3.up, RangedEnemyTypeData.MaxRange);
                 }
@@ -276,8 +276,9 @@ namespace Thicckitty
         {
             Vector3 currentPosition = _component.Transform.position;
             Vector3 diff = _component.TargetPosition - currentPosition;
+            
             if (RangedEnemyTypeData.HasMaxRange
-                && diff.sqrMagnitude > (RangedEnemyTypeData.MaxRange * RangedEnemyTypeData.MaxRange))
+                && diff.magnitude > RangedEnemyTypeData.MaxRange)
             {
                 return false;
             }

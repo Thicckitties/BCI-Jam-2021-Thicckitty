@@ -35,7 +35,7 @@ namespace Thicckitty
             : base(component)
         {
             _originalForward = ZigZagMovement.zigZagNormal.normalized;
-            _zigZagDirection = ZigZagMovement.zigZagDirection;
+            _zigZagDirection = ZigZagMovement.zigZagDirection.normalized;
             _targetPosition = component.transform.position
                 + _zigZagDirection * ZigZagMovement.zigZagAmount;
         }
@@ -51,14 +51,13 @@ namespace Thicckitty
                 return;
             }
             Vector3 targetDifference = _targetPosition - Transform.position;
-            float magnitude = targetDifference.sqrMagnitude;
-            float differenceThreshold = ZigZagMovement.differenceThreshold
-                                        * ZigZagMovement.differenceThreshold;
+            float magnitude = targetDifference.magnitude;
+            float differenceThreshold = ZigZagMovement.differenceThreshold;
             if (magnitude <= differenceThreshold)
             {
                 _zigZagDirection = Vector3.Reflect(_zigZagDirection, _originalForward);
                 _targetPosition = _component.transform.position 
-                                  + _zigZagDirection * ZigZagMovement.zigZagAmount;
+                                  + _zigZagDirection.normalized * ZigZagMovement.zigZagAmount;
                 return;
             }
 

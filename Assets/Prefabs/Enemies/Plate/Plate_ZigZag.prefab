@@ -199,6 +199,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
+      propertyPath: zigZagAIData.pointColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.pointColor.b
       value: 0
       objectReference: {fileID: 0}
@@ -232,7 +236,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: zigZagAIData.differenceThreshold
-      value: 8.58
+      value: 0.29
       objectReference: {fileID: 0}
     - target: {fileID: 258082289052958323, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: sprite3DUpdaterData.spriteRenderer
@@ -241,6 +245,10 @@ PrefabInstance:
     - target: {fileID: 8121407875775625508, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8950922366672391637, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 932684a2a381af94e8d0387ee20feddb, type: 3}
