@@ -11,6 +11,7 @@ namespace Thicckitty
             SerializedProperty projectilePrefab = property.FindPropertyRelative("projectilePrefab");
             SerializedProperty projectileLaunchPosition = property.FindPropertyRelative("projectileLaunchPosition");
             SerializedProperty projectileAdditionalForce = property.FindPropertyRelative("projectileAdditionalForce");
+            SerializedProperty projectileForceMultiplier = property.FindPropertyRelative("projectileForceMultiplier");
             SerializedProperty hasUpMotion = property.FindPropertyRelative("hasUpMotion");
             SerializedProperty upRotation = property.FindPropertyRelative("upRotation");
             
@@ -22,6 +23,7 @@ namespace Thicckitty
                 DisplayField(projectilePrefab, "Prefab");
                 DisplayField(projectileLaunchPosition, "Launch Position");
                 DisplayField(projectileAdditionalForce, "Additional Force");
+                DisplayField(projectileForceMultiplier, "Projectile Force Multiplier");
                 DisplayField(hasUpMotion, "Has Up Motion");
             }
 

@@ -18,6 +18,8 @@ namespace Thicckitty
         public Transform projectileLaunchPosition;
         [SerializeField, Min(0.0f)]
         private float projectileAdditionalForce = 0.0f;
+        [SerializeField, Min(0.0f)]
+        private float projectileForceMultiplier = 1.0f;
         [SerializeField]
         private bool hasUpMotion;
         [SerializeField, Range(0.0f, 90.0f)]
@@ -65,6 +67,7 @@ namespace Thicckitty
 
         public float UpRotation => hasUpMotion ? upRotation : 0.0f;
         public float AdditionalProjectileForce => projectileAdditionalForce;
+        public float ProjectileForceMultiplier => projectileForceMultiplier;
         
         public float GetRandomCooldown()
         {
@@ -179,7 +182,8 @@ namespace Thicckitty
                     instantiated.transform.rotation *= rotation;
                     
                     component.Rigidbody.AddForce(instantiated.transform.forward
-                        * (Mathf.Sqrt(distanceSquared) + RangedEnemyTypeData.AdditionalProjectileForce),
+                        * (Mathf.Sqrt(distanceSquared) * RangedEnemyTypeData.ProjectileForceMultiplier 
+                           + RangedEnemyTypeData.AdditionalProjectileForce),
                         ForceMode.Impulse);
                 }
                 _currentNumberOfProjectiles--;
@@ -273,7 +277,7 @@ namespace Thicckitty
             Vector3 currentPosition = _component.Transform.position;
             Vector3 diff = _component.TargetPosition - currentPosition;
             if (RangedEnemyTypeData.HasMaxRange
-                && diff.sqrMagnitude > RangedEnemyTypeData.MaxRange * RangedEnemyTypeData.MaxRange)
+                && diff.sqrMagnitude > (RangedEnemyTypeData.MaxRange * RangedEnemyTypeData.MaxRange))
             {
                 return false;
             }

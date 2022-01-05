@@ -39,17 +39,31 @@ namespace Thicckitty
                 break;
                 case EnemyBackAndForthAIData.BackAndForthAIReferenceType.TYPE_START_POSITION_OFFSETS:
                 {
+                    int offsetAProperty = GetOffsetProperties(offsetA);
+                    int offsetBProperty = GetOffsetProperties(offsetB);
+                    numberOfPropertiesInField += offsetAProperty + offsetBProperty;
                     if (draw)
                     {
-                        DisplayField(offsetA, "Offset A");
-                        DisplayField(offsetB, "Offset B");
+                        DisplayField(offsetA, "Offset A", offsetAProperty * PropertiesHeightDifference);
+                        DisplayField(offsetB, "Offset B", offsetBProperty * PropertiesHeightDifference);
                     }
 
-                    numberOfPropertiesInField += GetNumberOfPropertiesInFields(offsetA, offsetB);
                 }
                 break;
             }
             return numberOfPropertiesInField;
+        }
+
+        private int GetOffsetProperties(SerializedProperty property)
+        {
+            if (!property.isExpanded)
+            {
+                return 1;
+            }
+            SerializedProperty x = property.FindPropertyRelative("x");
+            SerializedProperty yOffset = property.FindPropertyRelative("yOffset");
+            SerializedProperty z = property.FindPropertyRelative("z");
+            return GetNumberOfPropertiesInFields(property, x, yOffset, z);
         }
     }
 }

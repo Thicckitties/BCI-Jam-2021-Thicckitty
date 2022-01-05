@@ -5,16 +5,17 @@ namespace Thicckitty
     
     [RequireComponent(typeof(Rigidbody))]
     public class EnemyAIComponent : EventsListener, IGroundDetectionComponent, 
-        ISprite3DUpdater, IEnemyAttackComponent
+        ISprite3DUpdater, IEnemyAttackComponent, IEnemyStunComponent
     {
         
         [SerializeField, UnityEngine.Min(0.0f)]
         private float aiMovementSpeed = 0.0f;
         [SerializeField]
         private GroundDetectionData groundDetectionData;
-        
         [SerializeField]
         private Sprite3DUpdaterData sprite3DUpdaterData;
+        [SerializeField]
+        private CollisionListenerComponent collisionListener;
         
         [SerializeField]
         private AIControllerType controllerType;
@@ -30,18 +31,21 @@ namespace Thicckitty
         [SerializeField]
         private SODA.Vector3Reference targetPosition;
         [SerializeField]
-        private bool controlledByAnimations;
-        [SerializeField]
         private RangedEnemyTypeData rangedAttackData;
-        
+    
         [SerializeField]
         private Color positionColor = Color.black;
         
         [SerializeField]
+        private bool controlledByAnimations;
+        [SerializeField]
         private Animator animator;
         [SerializeField]
         private string walkAnimation;
-        
+        [SerializeField]
+        private string stunBeginAnimation;
+        [SerializeField]
+        private string stunEndAnimation;
         
         private Rigidbody _rigidbody;
         
@@ -49,7 +53,7 @@ namespace Thicckitty
         private AEnemyAIControllerType _enemyControllerType;
         private Sprite3DUpdaterBehaviour _updaterBehaviour;
         private AEnemyAttackType _enemyAttackType;
-
+        private EnemyStunAI _enemyStunAI;
 
         public bool IsControlledByAnimations => controlledByAnimations;
 
@@ -68,6 +72,15 @@ namespace Thicckitty
             {
                 _enemyControllerType ??= AEnemyAIControllerType.Create(this);
                 return _enemyControllerType;
+            }
+        }
+
+        private EnemyStunAI EnemyStunAI
+        {
+            get
+            {
+                _enemyStunAI ??= new EnemyStunAI(this);
+                return _enemyStunAI;
             }
         }
 
@@ -132,6 +145,13 @@ namespace Thicckitty
             {
                 EnemyAttackType.EnemySetAttacking += HandleEnemySetAttacking;
             }
+            EnemyStunAI.StunBeginEvent += HandleStunBegin;
+            EnemyStunAI.StunEndEvent += HandleStunEnd;
+
+            if (collisionListener)
+            {
+                collisionListener.OnCollisionEnterEvent += HandleCollisionEnter;
+            }
             return true;
         }
 
@@ -142,6 +162,13 @@ namespace Thicckitty
             if (EnemyAttackType != null)
             {
                 EnemyAttackType.EnemySetAttacking -= HandleEnemySetAttacking;
+            }
+            EnemyStunAI.StunBeginEvent -= HandleStunBegin;
+            EnemyStunAI.StunEndEvent -= HandleStunEnd;
+
+            if (collisionListener)
+            {
+                collisionListener.OnCollisionEnterEvent -= HandleCollisionEnter;
             }
             return true;
         }
@@ -161,7 +188,8 @@ namespace Thicckitty
 
         private void UpdateAnimations()
         {
-            if (animator)
+            if (animator
+                && !EnemyStunAI.IsStunned)
             {
                 animator.Play(walkAnimation);
             }
@@ -172,6 +200,52 @@ namespace Thicckitty
             EnemyAIControllerType?.FixedUpdate(Time.fixedDeltaTime);
         }
 
+        /// <summary>
+        /// Sets the enemy stun to be ended via an animation trigger.
+        /// </summary>
+        public void SetStunEnd_AnimationTrigger()
+        {
+            EnemyStunAI.SetStunned(false, 0.0f);
+        }
+
+        /// <summary>
+        /// Called when the enemy has begun to get stunned.
+        /// </summary>
+        private void HandleStunBegin(EnemyStunAI ai)
+        {
+            if (animator)
+            {
+                animator.Play(stunBeginAnimation);
+            }
+            EnemyAIControllerType.SetEnabled(false);
+            EnemyAttackType.SetEnabled(false);
+        }
+
+        /// <summary>
+        /// Called when the enemy has ended its stun period.
+        /// </summary>
+        private void HandleStunEnd(EnemyStunAI ai)
+        {
+            if (animator
+                && !controlledByAnimations)
+            {
+                animator.Play(stunEndAnimation);
+            }
+            EnemyAIControllerType.SetEnabled(true);
+            EnemyAttackType.SetEnabled(true);
+        }
+
+        private void HandleCollisionEnter(CollisionListenerComponent listener,
+            Collision collision)
+        {
+            TProjectileComponent component
+                = collision.rigidbody.GetComponent<TProjectileComponent>();
+            if (component != null)
+            {
+                Debug.Log(component.name);
+            }
+        }
+        
 #if UNITY_EDITOR
 
         private void OnDrawGizmos()
@@ -215,8 +289,8 @@ namespace Thicckitty
                         case EnemyBackAndForthAIData.BackAndForthAIReferenceType.TYPE_START_POSITION_OFFSETS:
                         {
                             Vector3 position = transform.position;
-                            Vector3 posA = position + BackAndForthAIData.OffsetA;
-                            Vector3 posB = position + BackAndForthAIData.OffsetB;
+                            Vector3 posA = position + BackAndForthAIData.GetOffsetA(position.y);
+                            Vector3 posB = position + BackAndForthAIData.GetOffsetB(position.y);
                             
                             Gizmos.color = positionColor;
                             Gizmos.DrawSphere(posA, BackAndForthAIData.MinDistance);

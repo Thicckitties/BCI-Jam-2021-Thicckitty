@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using MiscUtil.Collections.Extensions;
+using UnityEngine;
 using Debug = System.Diagnostics.Debug;
 
 namespace Thicckitty
@@ -14,6 +15,22 @@ namespace Thicckitty
             [InspectorName("Start Position Offsets")]
             TYPE_START_POSITION_OFFSETS
         }
+
+        [System.Serializable]
+        public struct ZigZagPosition
+        {
+            [SerializeField]
+            private float x;
+            [SerializeField]
+            private float z;
+            [SerializeField]
+            private float yOffset;
+
+            public Vector3 ToOffset(float y)
+            {
+                return new Vector3(x, y + yOffset, z);
+            }
+        }
         
         [SerializeField, Min(0.001f)]
         private float minDistance = 0.1f;
@@ -24,18 +41,19 @@ namespace Thicckitty
         [SerializeField]
         private Transform transformRefB;
         [SerializeField]
-        private Vector3 offsetA;
+        private ZigZagPosition offsetA;
         [SerializeField]
-        private Vector3 offsetB;
+        private ZigZagPosition offsetB;
 
         public BackAndForthAIReferenceType ReferenceType => referenceType;
 
         public Transform TransformRefA => transformRefA;
         public Transform TransformRefB => transformRefB;
 
-        public Vector3 OffsetA => offsetA;
-        public Vector3 OffsetB => offsetB;
+        public Vector3 GetOffsetA(float y) => offsetA.ToOffset(y);
 
+        public Vector3 GetOffsetB(float y) => offsetB.ToOffset(y);
+        
         public float MinDistance => minDistance;
     }
     
@@ -64,9 +82,9 @@ namespace Thicckitty
                     {
                         if (_positionAIsTargetPosition)
                         {
-                            return _startPosition + BackAndForthAIData.OffsetA;
+                            return _startPosition + BackAndForthAIData.GetOffsetA(_startPosition.y);
                         }
-                        return _startPosition + BackAndForthAIData.OffsetB;
+                        return _startPosition + BackAndForthAIData.GetOffsetB(_startPosition.y);
                     }
                 }
                 return Transform.position;

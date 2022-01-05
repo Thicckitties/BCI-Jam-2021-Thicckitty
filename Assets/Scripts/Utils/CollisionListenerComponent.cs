@@ -9,21 +9,22 @@ namespace Thicckitty
     [DisallowMultipleComponent]
     public class CollisionListenerComponent : MonoBehaviour
     {
-        public delegate void CollisionEventDelegate(CollisionListenerComponent listenerComponent, Collider collider);
-
+        public delegate void TriggerEventDelegate(CollisionListenerComponent listenerComponent, Collider collider);
+        public delegate void CollisionEventDelegate(CollisionListenerComponent listener, Collision collision);
+        
         public CollisionEventDelegate OnCollisionEnterEvent;
         public CollisionEventDelegate OnCollisionExitEvent;
-        public CollisionEventDelegate OnTriggerEnterEvent;
-        public CollisionEventDelegate OnTriggerExitEvent;
+        public TriggerEventDelegate OnTriggerEnterEvent;
+        public TriggerEventDelegate OnTriggerExitEvent;
 
         private void OnCollisionEnter(Collision other)
         {
-            OnCollisionEnterEvent?.Invoke(this, other.collider);
+            OnCollisionEnterEvent?.Invoke(this, other);
         }
 
         private void OnCollisionExit(Collision other)
         {
-            OnCollisionExitEvent?.Invoke(this, other.collider);
+            OnCollisionExitEvent?.Invoke(this, other);
         }
 
         private void OnTriggerEnter(Collider other)

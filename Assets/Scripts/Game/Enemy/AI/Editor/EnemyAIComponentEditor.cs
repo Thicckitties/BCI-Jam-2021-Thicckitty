@@ -11,7 +11,6 @@ namespace Thicckitty
 
         private SerializedProperty _attackType;
         private SerializedProperty _targetPosition;
-        private SerializedProperty _controlledByAnimations;
         private SerializedProperty _rangedAttackData;
 
         private SerializedProperty _aiMovementSpeed;
@@ -23,12 +22,17 @@ namespace Thicckitty
         private SerializedProperty _mimicMovementData;
         private SerializedProperty _zigZagAIData;
 
+        private SerializedProperty _controlledByAnimations;
         private SerializedProperty _animator;
         private SerializedProperty _walkAnimation;
-
+        private SerializedProperty _stunBeginAnimation;
+        private SerializedProperty _stunEndAnimation;
+        
         private SerializedProperty _groundDetectionData;
 
         private SerializedProperty _positionColor;
+
+        private SerializedProperty _collisionListener;
 
         private void OnEnable()
         {
@@ -41,22 +45,27 @@ namespace Thicckitty
             _groundDetectionData = serializedObject.FindProperty("groundDetectionData");
             _sprite3DUpdaterData = serializedObject.FindProperty("sprite3DUpdaterData");
             _animator = serializedObject.FindProperty("animator");
-            _walkAnimation = serializedObject.FindProperty("walkAnimation");
             _attackType = serializedObject.FindProperty("attackType");
             _rangedAttackData = serializedObject.FindProperty("rangedAttackData");
             _targetPosition = serializedObject.FindProperty("targetPosition");
             _controlledByAnimations = serializedObject.FindProperty("controlledByAnimations");
+            _walkAnimation = serializedObject.FindProperty("walkAnimation");
+            _stunBeginAnimation = serializedObject.FindProperty("stunBeginAnimation");
+            _stunEndAnimation = serializedObject.FindProperty("stunEndAnimation");
+            _collisionListener = serializedObject.FindProperty("collisionListener");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
             
-            EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Movement + Collision", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(_aiMovementSpeed, 
                 new GUIContent("Movement Speed"));
             EditorGUILayout.PropertyField(_groundDetectionData,
                 new GUIContent("Ground Detection Data"));
+            EditorGUILayout.PropertyField(_collisionListener,
+                new GUIContent("Collision Listener"));
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Visuals", EditorStyles.boldLabel);
@@ -65,8 +74,12 @@ namespace Thicckitty
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Animation", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_controlledByAnimations,
+                new GUIContent("Behavior Controlled By Animations"));
             EditorGUILayout.PropertyField(_animator);
             EditorGUILayout.PropertyField(_walkAnimation);
+            EditorGUILayout.PropertyField(_stunBeginAnimation);
+            EditorGUILayout.PropertyField(_stunEndAnimation);
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);
@@ -103,8 +116,6 @@ namespace Thicckitty
             {
                 EditorGUILayout.PropertyField(_targetPosition, 
                     new GUIContent("Target Position"));
-                EditorGUILayout.PropertyField(_controlledByAnimations,
-                    new GUIContent("Controlled By Animations"));
             }
             switch ((EnemyAttackType) _attackType.enumValueIndex)
             {
