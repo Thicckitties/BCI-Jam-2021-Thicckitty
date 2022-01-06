@@ -395,7 +395,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3319634482b6aa448ff3f1e631b9139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockBackForce: 0
 --- !u!1001 &308545534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2813,6 +2812,10 @@ PrefabInstance:
     - target: {fileID: 1357627096, guid: 09f226d0a59305748926036b58abdfd2, type: 3}
       propertyPath: duration
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1357627096, guid: 09f226d0a59305748926036b58abdfd2, type: 3}
+      propertyPath: kickPower
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1357627096, guid: 09f226d0a59305748926036b58abdfd2, type: 3}
       propertyPath: vibration
