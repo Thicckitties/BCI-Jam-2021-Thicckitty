@@ -44,6 +44,16 @@ namespace Thicckitty
 
         public override void UnHookEvents() { }
 
+        public override void SetEnabled(bool enabled)
+        {
+            if (enabled != IsEnabled
+                && !enabled)
+            {
+                Rigidbody.velocity = Vector3.zero;
+            }
+            base.SetEnabled(enabled);
+        }
+
         public override void FixedUpdate(float deltaTime)
         {
             if (!IsEnabled)

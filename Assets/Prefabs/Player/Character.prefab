@@ -246,9 +246,15 @@ MonoBehaviour:
   ballLookAt: {fileID: 0}
   launchPoint: {fileID: 8220622072143409270}
   player: {fileID: 8220622072143409269}
+  camera: {fileID: 0}
   readyImage: {fileID: 0}
+  imageTwist: {fileID: 0}
   flashingNow: 0
   kickReady: 0
+  strengh: 0
+  vibration: 0
+  duration: 0
+  randomDirection: 0
 --- !u!65 &1234835479369924617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -487,9 +493,13 @@ MonoBehaviour:
   movementSpeed: 90
   velocityMagnitude: 0.01
   groundDetectionData:
+    groundDetectionType: 1
     raycastLayerMask:
       serializedVersion: 2
       m_Bits: 1
+    boxCollider: {fileID: 8220622072145614756}
+    boxRaycastDistance: 0.3
+    raycastYOffset: 0.2
     defaultRaycastData:
       raycastPositionOffset: {x: 0, y: 0, z: 0}
       maxDistance: 0.2

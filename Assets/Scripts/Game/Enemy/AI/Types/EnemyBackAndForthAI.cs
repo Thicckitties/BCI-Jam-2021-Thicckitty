@@ -107,6 +107,24 @@ namespace Thicckitty
         
         public override void Update(float deltaTime) { }
 
+        /// <summary>
+        /// Used so that they don't try to automatically go back to the start positions.
+        /// </summary>
+        public void RecalculatePositions()
+        {
+            _startPosition = Transform.position;
+        }
+
+        public override void SetEnabled(bool enabled)
+        {
+            if (IsEnabled != enabled
+                && !enabled)
+            {
+                Rigidbody.velocity = Vector3.zero;
+            }
+            base.SetEnabled(enabled);
+        }
+
         public override void FixedUpdate(float deltaTime)
         {
             if (!IsEnabled)
@@ -114,6 +132,7 @@ namespace Thicckitty
                 return;
             }
             Vector3 difference = TargetPosition - Transform.position;
+            difference.y = 0.0f;
             float squareDistance = difference.sqrMagnitude;
             float minDistanceToThreshold = 
                 BackAndForthAIData.MinDistance * BackAndForthAIData.MinDistance;
@@ -123,6 +142,7 @@ namespace Thicckitty
             }
 
             difference = TargetPosition - Transform.position;
+            difference.y = 0.0f;
             Vector3 movementDeltaTime = difference.normalized * _component.AIMovementSpeed;
 
             if (_component.GroundDetector.IsOnGround())

@@ -220,7 +220,8 @@ namespace Thicckitty
                 return;
             }
 
-            if (UpdateCooldownSeconds(deltaTime))
+            if (!IsAttacking
+                && UpdateCooldownSeconds(deltaTime))
             {
                 SetAttacking(true);
             }
@@ -262,12 +263,11 @@ namespace Thicckitty
             if (_currentCooldownSeconds > 0.0f)
             {
                 _currentCooldownSeconds -= deltaTime;
-
-                if (_currentCooldownSeconds <= 0.0f)
-                {
-                    _currentCooldownSeconds = 0.0f;
-                    return true;
-                }
+            }
+            if (_currentCooldownSeconds <= 0.0f)
+            {
+                _currentCooldownSeconds = 0.0f;
+                return true;
             }
             return false;
         }

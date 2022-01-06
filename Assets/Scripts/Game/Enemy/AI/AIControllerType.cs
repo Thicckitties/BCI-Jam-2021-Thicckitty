@@ -40,7 +40,7 @@ namespace Thicckitty
         public abstract void FixedUpdate(float deltaTime);
         public abstract void Update(float deltaTime);
 
-        public void SetEnabled(bool enabled)
+        public virtual void SetEnabled(bool enabled)
         {
             _enabled = enabled;
         }

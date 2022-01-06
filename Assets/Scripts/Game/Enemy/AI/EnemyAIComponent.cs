@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Thicckitty
 {
@@ -14,8 +15,6 @@ namespace Thicckitty
         private GroundDetectionData groundDetectionData;
         [SerializeField]
         private Sprite3DUpdaterData sprite3DUpdaterData;
-        [SerializeField]
-        private CollisionListenerComponent collisionListener;
         
         [SerializeField]
         private AIControllerType controllerType;
@@ -46,6 +45,17 @@ namespace Thicckitty
         private string stunBeginAnimation;
         [SerializeField]
         private string stunEndAnimation;
+        
+        [SerializeField, Min(0.0f)]
+        private float stunTime = 0.0f;
+        [SerializeField, Min(0.0f)]
+        private float ballKnockbackMultiplier = 1.0f;
+        [SerializeField, Range(-1.0f, 1.0f)]
+        private float ballHitDirectionThreshold = -0.5f;
+        [SerializeField, Min(0.0f)]
+        private float minBallSpeed = 0.0f;
+
+        
         
         private Rigidbody _rigidbody;
         
@@ -147,11 +157,6 @@ namespace Thicckitty
             }
             EnemyStunAI.StunBeginEvent += HandleStunBegin;
             EnemyStunAI.StunEndEvent += HandleStunEnd;
-
-            if (collisionListener)
-            {
-                collisionListener.OnCollisionEnterEvent += HandleCollisionEnter;
-            }
             return true;
         }
 
@@ -165,11 +170,6 @@ namespace Thicckitty
             }
             EnemyStunAI.StunBeginEvent -= HandleStunBegin;
             EnemyStunAI.StunEndEvent -= HandleStunEnd;
-
-            if (collisionListener)
-            {
-                collisionListener.OnCollisionEnterEvent -= HandleCollisionEnter;
-            }
             return true;
         }
 
@@ -181,6 +181,8 @@ namespace Thicckitty
         private void Update()
         {
             UpdateAnimations();
+            
+            EnemyStunAI.OnUpdate(Time.deltaTime);
             EnemyAIControllerType?.Update(Time.deltaTime);
             UpdaterBehaviour?.Update(Time.deltaTime);
             EnemyAttackType?.OnUpdate(Time.deltaTime);
@@ -218,7 +220,7 @@ namespace Thicckitty
                 animator.Play(stunBeginAnimation);
             }
             EnemyAIControllerType.SetEnabled(false);
-            EnemyAttackType.SetEnabled(false);
+            EnemyAttackType?.SetEnabled(false);
         }
 
         /// <summary>
@@ -231,18 +233,38 @@ namespace Thicckitty
             {
                 animator.Play(stunEndAnimation);
             }
+            if (EnemyAIControllerType is EnemyBackAndForthAI backNForth)
+            {
+                backNForth.RecalculatePositions();
+            }
             EnemyAIControllerType.SetEnabled(true);
-            EnemyAttackType.SetEnabled(true);
+            EnemyAttackType?.SetEnabled(true);
         }
 
-        private void HandleCollisionEnter(CollisionListenerComponent listener,
-            Collision collision)
+        private void OnCollisionEnter(Collision collision)
         {
-            TProjectileComponent component
-                = collision.rigidbody.GetComponent<TProjectileComponent>();
-            if (component != null)
+            Rigidbody ballRb = collision.rigidbody;
+            if (ballRb 
+                && ballRb.gameObject.CompareTag("Ball"))
             {
-                Debug.Log(component.name);
+                var velocity = ballRb.velocity;
+                if (collision.contactCount <= 0)
+                {
+                    return;
+                }
+                ContactPoint collisionPoint = collision.GetContact(0);
+                Vector3 diff = transform.position - collisionPoint.point;
+                diff.y = 0.0f;
+                float dotProductBetweenHitPointNVelocity = Vector3.Dot(diff.normalized,
+                    velocity.normalized);
+                if (dotProductBetweenHitPointNVelocity <= ballHitDirectionThreshold
+                    || velocity.magnitude <= minBallSpeed)
+                {
+                    return;
+                }
+                EnemyStunAI.SetStunned(true, stunTime);
+                _rigidbody.AddForce(velocity.normalized
+                                    * ballKnockbackMultiplier * velocity.magnitude, ForceMode.Impulse);
             }
         }
         

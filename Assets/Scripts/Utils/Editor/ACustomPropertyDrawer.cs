@@ -131,8 +131,8 @@ namespace Thicckitty
             int additionalProperties = 0;
             for (int i = 0; i < property.arraySize; i++)
             {
-                SerializedProperty newProperty = property.GetArrayElementAtIndex(i);
-                additionalProperties += numberOfPropertiesCallable.Invoke(property);
+                SerializedProperty newProperty = copiedProperty.GetArrayElementAtIndex(i);
+                additionalProperties += numberOfPropertiesCallable.Invoke(newProperty);
             }
 
             return numberOfProperties + additionalProperties;

@@ -11,7 +11,7 @@ namespace Thicckitty
             if (other.tag == "Enemy")
             {
                // other.GetComponent<EnemyAIComponent>().enabled = false;
-                Debug.Log("Yes");
+//                 Debug.Log("Yes");
                 Destroy(other.transform.parent.gameObject);
             }
         }

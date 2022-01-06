@@ -40,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6412304255623426946}
   - component: {fileID: 6412304255623426949}
-  - component: {fileID: 5557189866941593078}
   m_Layer: 6
   m_Name: Collider
   m_TagString: Untagged
@@ -75,18 +74,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.7500122, z: 1}
   m_Center: {x: 0, y: 0.8011495, z: 0}
---- !u!114 &5557189866941593078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6412304255623426947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4be7e892bb9440bf8dc170f7d7ae5783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6412304257028004641
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,9 +139,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiMovementSpeed: 150
   groundDetectionData:
+    groundDetectionType: 1
     raycastLayerMask:
       serializedVersion: 2
       m_Bits: 1
+    boxCollider: {fileID: 6412304255623426949}
+    boxRaycastDistance: 0.23
+    raycastYOffset: 0.2
     defaultRaycastData:
       raycastPositionOffset: {x: 0, y: 0, z: 0}
       maxDistance: 0.22
@@ -170,7 +161,6 @@ MonoBehaviour:
   sprite3DUpdaterData:
     spriteSide: 0
     spriteRenderer: {fileID: 0}
-  collisionListener: {fileID: 5557189866941593078}
   controllerType: 0
   backAndForthData:
     minDistance: 0.3
@@ -180,11 +170,11 @@ MonoBehaviour:
     offsetA:
       x: -1.45
       z: 0
-      yOffset: 0
+      yOffset: -1.25
     offsetB:
       x: 1.43
       z: 0
-      yOffset: 0
+      yOffset: -1.25
   mimicMovementData:
     distanceThreshold: 0.1
     targetPosition:
@@ -210,6 +200,7 @@ MonoBehaviour:
     projectilePrefab: {fileID: 0}
     projectileLaunchPosition: {fileID: 2833292695226050694}
     projectileAdditionalForce: 0
+    projectileForceMultiplier: 1
     hasUpMotion: 0
     upRotation: 0
     hasMaxRange: 1
@@ -232,6 +223,10 @@ MonoBehaviour:
   walkAnimation: 
   stunBeginAnimation: 
   stunEndAnimation: 
+  stunTime: 2
+  ballKnockbackMultiplier: 3
+  ballHitDirectionThreshold: -0.5
+  minBallSpeed: 0
 --- !u!1001 &6412304257023083902
 PrefabInstance:
   m_ObjectHideFlags: 0

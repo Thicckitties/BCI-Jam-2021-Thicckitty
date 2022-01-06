@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Random = UnityEngine.Random;
 
 namespace Thicckitty
 {
@@ -23,14 +25,20 @@ namespace Thicckitty
         public bool flashingNow;
         public bool kickReady;
 
+        [Header("Camera Rotation Kick Values")]
+        [SerializeField, Min(0.0f)]
+        private float maxKickAngle = 40.0f;
+        [SerializeField]
+        private float minCameraRotation = 85.0f;
+        [SerializeField]
+        private float maxCameraRotation = 110.0f;
+        
         [Header("Shake Camera Settings")]
 
        public float strengh;
        public int vibration;
        public float duration;
        public float randomDirection;
-
-
   
         private float t; //Time
         private Rigidbody playerR;
@@ -111,15 +119,56 @@ namespace Thicckitty
             t += Time.deltaTime;
             readyImage.color = Color.Lerp(Color.white, Color.red, Mathf.Abs(Mathf.Sin(t * 3)));
             imageTwist.DOShakeRotation(0.5f, 0.3f, 1, 2, false);
-
         }
 
         public void KickBall() //Kicks the ball via addforce
         {
+#if DOMS_OLD_CODE
+            // Original Values for Kick:
+            // 250 for Kick Power
+
             Vector3 kickPos = new Vector3(transform.position.x, transform.position.y - .2f, transform.position.z);
             ball.AddExplosionForce(kickPower, transform.position, 5);
+            ball.AddForce();
+#else
+            Vector3 kickDirection = CalculateKickDirection();
+            ball.AddForce(kickDirection * kickPower, ForceMode.Impulse);
+            
             KickBallEvent?.Invoke(this);
+#endif
             Tween();
+        }
+
+        /// <summary>
+        /// Calculates the kick direction based on the direction of the camera.
+        /// The lower the camera is relative to the player, the higher the ball gets kicked.
+        /// </summary>
+        private Vector3 CalculateKickDirection()
+        {
+            // Calculates the angle to do the angle axis degrees based on
+            // minimum and maximum camera angle values if a camera exists.
+            // Otherwise, just get a random angle axis.
+            float angleAxisDegrees;
+            if (camera)
+            {
+                float dotProductWithUp = Vector3.Dot(camera.transform.forward,
+                    Vector3.up);
+                float camRotation = Mathf.Rad2Deg * Mathf.Acos(dotProductWithUp);
+                float interpolated = Mathf.Clamp01((camRotation - minCameraRotation) 
+                                                   / (maxCameraRotation - minCameraRotation));
+                angleAxisDegrees = (1.0f - interpolated) * -maxKickAngle;
+            }
+            else
+            {
+                angleAxisDegrees = Random.Range(0.0f, -maxKickAngle);
+            }
+
+            // Sends ball in forward direction of kick transform (child of player).
+            // Angle Axis applies a rotation upwards so that kick can have some arc.
+            var trans = transform;
+            Quaternion rotation = Quaternion.AngleAxis(angleAxisDegrees, trans.right)
+                                  * trans.rotation;
+            return (rotation * Vector3.forward).normalized;
         }
 
 
@@ -127,5 +176,15 @@ namespace Thicckitty
         {
             camera.DOShakePosition(duration, strengh, vibration, randomDirection, true);
         }
+
+#if UNITY_EDITOR
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawRay(transform.position, CalculateKickDirection() * kickPower);
+        }
+
+#endif
     }
 }

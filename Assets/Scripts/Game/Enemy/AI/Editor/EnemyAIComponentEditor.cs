@@ -31,9 +31,12 @@ namespace Thicckitty
         private SerializedProperty _groundDetectionData;
 
         private SerializedProperty _positionColor;
-
-        private SerializedProperty _collisionListener;
-
+        
+        private SerializedProperty _stunTime;
+        private SerializedProperty _ballKnockbackMultiplier;
+        private SerializedProperty _ballHitDirectionThreshold;
+        private SerializedProperty _minBallSpeed;
+        
         private void OnEnable()
         {
             _mimicMovementData = serializedObject.FindProperty("mimicMovementData");
@@ -52,7 +55,10 @@ namespace Thicckitty
             _walkAnimation = serializedObject.FindProperty("walkAnimation");
             _stunBeginAnimation = serializedObject.FindProperty("stunBeginAnimation");
             _stunEndAnimation = serializedObject.FindProperty("stunEndAnimation");
-            _collisionListener = serializedObject.FindProperty("collisionListener");
+            _stunTime = serializedObject.FindProperty("stunTime");
+            _ballKnockbackMultiplier = serializedObject.FindProperty("ballKnockbackMultiplier");
+            _ballHitDirectionThreshold = serializedObject.FindProperty("ballHitDirectionThreshold");
+            _minBallSpeed = serializedObject.FindProperty("minBallSpeed");
         }
 
         public override void OnInspectorGUI()
@@ -64,8 +70,6 @@ namespace Thicckitty
                 new GUIContent("Movement Speed"));
             EditorGUILayout.PropertyField(_groundDetectionData,
                 new GUIContent("Ground Detection Data"));
-            EditorGUILayout.PropertyField(_collisionListener,
-                new GUIContent("Collision Listener"));
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Visuals", EditorStyles.boldLabel);
@@ -80,6 +84,13 @@ namespace Thicckitty
             EditorGUILayout.PropertyField(_walkAnimation);
             EditorGUILayout.PropertyField(_stunBeginAnimation);
             EditorGUILayout.PropertyField(_stunEndAnimation);
+
+            EditorGUILayout.Separator();
+            EditorGUILayout.LabelField("Stun/Knockback", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(_stunTime);
+            EditorGUILayout.PropertyField(_ballKnockbackMultiplier);
+            EditorGUILayout.PropertyField(_ballHitDirectionThreshold);
+            EditorGUILayout.PropertyField(_minBallSpeed);
             
             EditorGUILayout.Separator();
             EditorGUILayout.LabelField("Movement", EditorStyles.boldLabel);

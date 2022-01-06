@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,19 @@ namespace Thicckitty
             rb.velocity = new Vector3(0, 0, 0);
             transform.position = new Vector3(returnPoint.position.x, returnPoint.position.y, returnPoint.position.z + 1.0f);
         }
+
+        #if UNITY_EDITOR
+        
+        private void Update()
+        {
+            // Debug Purposes.
+            if (Input.GetKey(KeyCode.Q))
+            {
+                ReturnBall();
+            }
+        }
+        
+        #endif
 
         private void OnTriggerEnter(Collider other)
         {
